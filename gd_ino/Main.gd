@@ -8,12 +8,15 @@ extends Node2D
 # ---------------------------------
 @onready var _player = $Player
 @onready var _camera = $Camera2D
+@onready var _map = $TileMap
 
 # ---------------------------------
 # private functions.
 # ---------------------------------
 ## 開始.
 func _ready() -> void:
+	# タイルマップを設定.
+	Map.setup(_map)
 	# カメラをワープ.
 	_update_camera(true)
 
