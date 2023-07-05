@@ -1,8 +1,8 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ddxc5jk7ravju"]
+[gd_resource type="Resource" script_class="Config" load_steps=2 format=3 uid="uid://ddxc5jk7ravju"]
 
 [ext_resource type="Script" path="res://src/common/Config.gd" id="1_sqhpk"]
 
 [resource]
 script = ExtResource("1_sqhpk")
-player_speed = 500.0
-player_jump = 900.0
+move_speed = 500.0
+jump_velocity = 900.0
