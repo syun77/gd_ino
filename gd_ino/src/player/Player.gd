@@ -1,8 +1,6 @@
 extends CharacterBody2D
 
-
-const SPEED = 500.0
-const JUMP_VELOCITY = -900.0
+@onready var _config:Config = preload("res://assets/config.tres")
 
 # プロジェクト設定から重力値を取得する.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -15,13 +13,13 @@ func _physics_process(delta: float) -> void:
 
 	# ジャンプ.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = _config.jump_velocity * -1
 
 	# 左右で移動.
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * _config.move_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, _config.move_speed)
 
 	move_and_slide()
