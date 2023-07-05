@@ -15,7 +15,6 @@ position = Vector2(0, -32)
 texture = ExtResource("1_4u15n")
 hframes = 6
 vframes = 4
-metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
