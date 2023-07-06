@@ -26,6 +26,8 @@ var _timer_anim = 0.0
 var _is_left = true
 ## 飛び降り中かどうか.
 var _is_fall_through = false
+## 方向.
+var _direction = 0
 
 # ---------------------------------
 # private functions.
@@ -34,9 +36,9 @@ var _is_fall_through = false
 func _physics_process(delta: float) -> void:
 	_timer_anim += delta
 	
-	# 着地していなければ重力を加算.
-	#if not is_on_floor():
-	velocity.y += _config.gravity * delta
+	# move_and_slide()で足元のタイルを判定したいので
+	# 常に重力を加算.
+	velocity.y += _config.gravity
 	
 	if _is_fall_through:
 		# 飛び降り中.
@@ -46,20 +48,18 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
 		# 飛び降り開始.
 		_is_fall_through = true
-		# 重力を足し込む.
-		#velocity.y += _config.gravity * delta
 	elif Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		# ジャンプ.
 		velocity.y = _config.jump_velocity * -1
 
 	# 左右で移動.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		_is_left = (direction > 0.0)
-		velocity.x = direction * _config.move_speed
-	else:
-		pass
-		#velocity.x = move_toward(velocity.x, 0, _config.move_speed)
+	if Input.is_action_pressed("ui_left"):
+		_direction = -1
+	elif Input.is_action_pressed("ui_right"):
+		_direction = 1
+	velocity.x = velocity.x * (1.0 - _config.ground_acc_ratio) + _direction * _config.move_speed * _config.ground_acc_ratio
+	# 向きを更新.
+	_is_left = (_direction > 0.0)
 	_spr.flip_h = _is_left
 	_spr.frame = _get_anim()
 	
@@ -67,6 +67,8 @@ func _physics_process(delta: float) -> void:
 	_update_collision_layer()
 
 	move_and_slide()
+	if is_on_floor():
+		_is_fall_through = false # 着地したら飛び降り終了.
 	
 	_update_collision_post(delta)
 	
@@ -102,8 +104,8 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 		Map.eType.NONE:
 			pass # 何もしない.
 		Map.eType.SCROLL_L: # スクロール床(左).
-			velocity.x -= _config.moving_floor * delta
+			velocity.x -= _config.scroll_panel_speed * delta
 		Map.eType.SCROLL_R: # スクロール床(右).
-			velocity.x += _config.moving_floor * delta
+			velocity.x += _config.scroll_panel_speed * delta
 	
 	return ret

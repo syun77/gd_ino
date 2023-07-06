@@ -4,5 +4,11 @@
 
 [resource]
 script = ExtResource("1_sqhpk")
-move_speed = 500.0
-jump_velocity = 900.0
+move_speed = 400.0
+ground_acc_ratio = 0.04
+air_acc_ratio = 0.01
+jump_velocity = 800.0
+gravity = 35.0
+fall_speed_max = 800.0
+life_ratio = 6.66667
+scroll_panel_speed = 400.0
