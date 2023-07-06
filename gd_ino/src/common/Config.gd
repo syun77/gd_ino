@@ -13,3 +13,7 @@ class_name Config
 ## 重力加速度.
 @export var gravity = 1960.0
 
+# ---------------------------------
+@export_category("地形")
+## 移動床の速度.
+@export var moving_floor = 100.0

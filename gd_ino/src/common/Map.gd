@@ -13,10 +13,15 @@ enum eTileLayer {
 #	TERRAIN, # 地形.
 }
 
-## コリジョンの種類.
-enum eCollision {
+## 地形の種類.
+enum eType {
 	NONE = 0,
-		
+	
+	MOVE_L = 1, # 移動床(左).
+	MOVE_R = 2, # 移動床(右).
+	SPIKE = 3, # トゲ.
+	SLIP = 4, # 滑る床.
+	LOCK = 5, # 鍵穴.
 }
 
 ## アイテムID.
@@ -126,29 +131,26 @@ func get_mouse_pos(snapped:bool=false) -> Vector2:
 	var pos = get_grid_mouse_pos()
 	# ワールドに戻すことでスナップされる.
 	return grid_to_world(pos, true)
+
+## 床の種別を取得する.
+func get_floor_type(world:Vector2) -> eType:
+	var ret = get_custom_data_from_world(world, "type")
+	if ret == null:
+		return eType.NONE
+	return ret
 	
-## カスタムデータの取得.
-func get_custom_data_from_world(world:Vector2, name:String) -> Variant:
-	var pos:Vector2i = world_to_grid(world)
+## カスタムデータを取得する (ワールド座標指定).
+func get_custom_data_from_world(world:Vector2, key:String) -> Variant:
+	var pos:Vector2i = world_to_grid(world, false)
+	return get_custom_data(pos, key)
+
+## カスタムデータを取得する.
+func get_custom_data(pos:Vector2i, key:String) -> Variant:
 	for layer in eTileLayer.values():
 		var data = _tilemap.get_cell_tile_data(layer, pos)
 		if data == null:
 			continue
-		return data.get_custom_data(name)
+		return data.get_custom_data(key)
 	
 	# 存在しない.
 	return null
-	
-
-## 砲台の設置できない場所かどうか.
-func cant_build_position(pos:Vector2i) -> bool:
-	for layer in eTileLayer.values():
-		var data = _tilemap.get_cell_tile_data(layer, pos)
-		if data == null:
-			continue
-		if data.get_custom_data("cant_build"):
-			return true # 配置できない場所.
-	
-	# 配置可能.	
-	return false
-

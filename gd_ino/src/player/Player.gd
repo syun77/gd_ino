@@ -35,8 +35,8 @@ func _physics_process(delta: float) -> void:
 	_timer_anim += delta
 	
 	# 着地していなければ重力を加算.
-	if not is_on_floor():
-		velocity.y += _config.gravity * delta
+	#if not is_on_floor():
+	velocity.y += _config.gravity * delta
 	
 	if _is_fall_through:
 		# 飛び降り中.
@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		# 飛び降り開始.
 		_is_fall_through = true
 		# 重力を足し込む.
-		velocity.y += _config.gravity * delta
+		#velocity.y += _config.gravity * delta
 	elif Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		# ジャンプ.
 		velocity.y = _config.jump_velocity * -1
@@ -58,7 +58,8 @@ func _physics_process(delta: float) -> void:
 		_is_left = (direction > 0.0)
 		velocity.x = direction * _config.move_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, _config.move_speed)
+		pass
+		#velocity.x = move_toward(velocity.x, 0, _config.move_speed)
 	_spr.flip_h = _is_left
 	_spr.frame = _get_anim()
 	
@@ -67,7 +68,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	_update_collision_post()
+	_update_collision_post(delta)
 	
 ## アニメーションフレーム番号を取得する.
 func _get_anim() -> int:
@@ -83,10 +84,26 @@ func _update_collision_layer() -> void:
 	else:
 		collision_mask |= oneway_bit
 
-func _update_collision_post() -> void:
+func _update_collision_post(delta:float) -> void:
 	# 衝突したコリジョンの影響を処理する.
 	for i in range(get_slide_collision_count()):
 		var col:KinematicCollision2D = get_slide_collision(i)
 		# 衝突位置.
 		var pos = col.get_position()
-		Map.get_custom_data(pos)
+		var v = Map.get_floor_type(pos)
+		if v == Map.eType.NONE:
+			continue # 何もしない.
+		_update_floor_type(delta, v)
+
+## 床種別に対応した処理をする.
+func _update_floor_type(delta:float, v:Map.eType) -> bool:
+	var ret = false
+	match v:
+		Map.eType.NONE:
+			pass # 何もしない.
+		Map.eType.MOVE_L:
+			velocity.x -= _config.moving_floor * delta
+		Map.eType.MOVE_R:
+			velocity.x += _config.moving_floor * delta
+	
+	return ret
