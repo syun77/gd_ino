@@ -66,7 +66,9 @@ func _physics_process(delta: float) -> void:
 	_update_collision_layer()
 
 	move_and_slide()
-
+	
+	_update_collision_post()
+	
 ## アニメーションフレーム番号を取得する.
 func _get_anim() -> int:
 	var t = int(_timer_anim * 8)
@@ -80,3 +82,11 @@ func _update_collision_layer() -> void:
 		collision_mask &= ~oneway_bit
 	else:
 		collision_mask |= oneway_bit
+
+func _update_collision_post() -> void:
+	# 衝突したコリジョンの影響を処理する.
+	for i in range(get_slide_collision_count()):
+		var col:KinematicCollision2D = get_slide_collision(i)
+		# 衝突位置.
+		var pos = col.get_position()
+		Map.get_custom_data(pos)

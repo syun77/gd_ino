@@ -13,6 +13,53 @@ enum eTileLayer {
 #	TERRAIN, # 地形.
 }
 
+## コリジョンの種類.
+enum eCollision {
+	NONE = 0,
+		
+}
+
+## アイテムID.
+enum eItem {
+	NONE = 0, # 何もない.
+	
+	## アップグレード・特殊アイテム系.
+	JUMP_UP = 1, # ジャンプ回数上昇.
+	LIFE = 2, # ライフ最大値上昇.
+	POWER_UP = 3, # 未使用.
+	KEY = 4, # 未使用.
+	
+	## 収集アイテム系.
+	### 富士系.
+	FUJI = 10, # 富士山.
+	BUSHI = 11, # 武士.
+	APPLE = 12, # ふじリンゴ.
+	V = 13, # ブイ.
+	
+	### 鷹系.
+	TAKA = 14, # 鷹.
+	SHOULDER = 15, # 肩.
+	DAGGER = 16, # ダガー.
+	KATAKATA = 17, # かたかた.
+	
+	### 茄子系.
+	NASU = 18, # 茄子.
+	BONUS = 19, # 棒と茄子.
+	NURSE = 20, # ナース.
+	NAZUNA = 21, # なずな.
+	
+	### クソゲー系.
+	GAMEHELL = 22, # ゲームヘル2000.
+	GUNDAM = 23, # 実写版ガンダム.
+	POED = 24, # PO'ed (ポエド).
+		
+	### その他.
+	MILESTONE = 25, # マイルストーン.
+	ONE_YEN = 26, # 1円札.
+	TRIANGLE = 27, # トライアングル・サービス.
+	OMEGA = 28, # おめがの勲章.
+}
+
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
@@ -79,6 +126,19 @@ func get_mouse_pos(snapped:bool=false) -> Vector2:
 	var pos = get_grid_mouse_pos()
 	# ワールドに戻すことでスナップされる.
 	return grid_to_world(pos, true)
+	
+## カスタムデータの取得.
+func get_custom_data_from_world(world:Vector2, name:String) -> Variant:
+	var pos:Vector2i = world_to_grid(world)
+	for layer in eTileLayer.values():
+		var data = _tilemap.get_cell_tile_data(layer, pos)
+		if data == null:
+			continue
+		return data.get_custom_data(name)
+	
+	# 存在しない.
+	return null
+	
 
 ## 砲台の設置できない場所かどうか.
 func cant_build_position(pos:Vector2i) -> bool:
