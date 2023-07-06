@@ -6,8 +6,8 @@ class_name Config
 
 # ---------------------------------
 @export_category("プレイヤー")
-## 移動速度.
-@export var move_speed = 500.0
+## 移動速度(加速度).
+@export var move_speed = 2.0 * 60
 ## ジャンプ力.
 @export var jump_velocity = 900.0
 ## 重力加速度.

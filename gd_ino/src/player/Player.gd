@@ -101,9 +101,9 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 	match v:
 		Map.eType.NONE:
 			pass # 何もしない.
-		Map.eType.MOVE_L:
+		Map.eType.SCROLL_L: # スクロール床(左).
 			velocity.x -= _config.moving_floor * delta
-		Map.eType.MOVE_R:
+		Map.eType.SCROLL_R: # スクロール床(右).
 			velocity.x += _config.moving_floor * delta
 	
 	return ret

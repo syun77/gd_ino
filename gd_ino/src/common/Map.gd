@@ -17,8 +17,8 @@ enum eTileLayer {
 enum eType {
 	NONE = 0,
 	
-	MOVE_L = 1, # 移動床(左).
-	MOVE_R = 2, # 移動床(右).
+	SCROLL_L = 1, # ベルト床(左).
+	SCROLL_R = 2, # 移動床(右).
 	SPIKE = 3, # トゲ.
 	SLIP = 4, # 滑る床.
 	LOCK = 5, # 鍵穴.
