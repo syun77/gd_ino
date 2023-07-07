@@ -42,24 +42,8 @@ var _is_damage = false
 func _physics_process(delta: float) -> void:
 	_timer_anim += delta
 	
-	# move_and_slide()で足元のタイルを判定したいので
-	# 常に重力を加算.
-	velocity.y += _config.gravity
-	
-	if _is_fall_through:
-		# 飛び降り中.
-		if Input.is_action_pressed("ui_down") == false:
-			# 飛び降り終了.
-			_is_fall_through = false
-	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
-		# 飛び降り開始.
-		_is_fall_through = true
-	elif checkJump():
-		# 設置していたらジャンプ.
-		velocity.y = _config.jump_velocity * -1
-	
-	# 左右移動の更新.
-	_update_horizontal_moving()
+	# 移動処理.
+	_update_moving()
 	
 	# 向きを更新.
 	_is_left = (_direction > 0.0)
@@ -77,6 +61,36 @@ func _physics_process(delta: float) -> void:
 	
 	# デバッグ用更新.
 	_update_debug()
+
+## 移動処理.
+func _update_moving() -> void:
+	if _is_damage:
+		# ダメージ処理.
+		velocity.y = -_config.jump_velocity
+		print("damage")
+		_is_damage = false
+		return
+	
+	# move_and_slide()で足元のタイルを判定したいので
+	# 常に重力を加算.
+	velocity.y += _config.gravity
+	
+	if _is_fall_through:
+		# 飛び降り中.
+		if Input.is_action_pressed("ui_down") == false:
+			# 飛び降り終了.
+			_is_fall_through = false
+	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
+		# 飛び降り開始.
+		_is_fall_through = true
+	elif checkJump():
+		# 接地していたらジャンプ.
+		velocity.y = _config.jump_velocity * -1
+		print("jump")
+	
+	# 左右移動の更新.
+	_update_horizontal_moving()
+
 
 ## ジャンプチェック.
 func checkJump() -> bool:
@@ -120,6 +134,8 @@ func _update_horizontal_moving() -> void:
 			velocity.x = base + (_direction * MOVE_SPEED - SCROLLPANEL_SPEED) * GROUND_ACC_RATIO
 		Map.eType.SCROLL_R: # ベルト床(右).
 			velocity.x = base + (_direction * MOVE_SPEED + SCROLLPANEL_SPEED) * GROUND_ACC_RATIO
+		Map.eType.SLIP: # すべる床.
+			pass # 地上では加速できない.
 
 		
 ## アニメーションフレーム番号を取得する.
@@ -175,3 +191,4 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 func _update_debug() -> void:
 	_label.visible = true
 	_label.text = "stomp:%d"%_stomp_tile
+	_label.text += "\nis_floor:%s"%("true" if is_on_floor() else "false")
