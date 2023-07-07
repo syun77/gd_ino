@@ -57,7 +57,7 @@ func update(delta: float) -> void:
 	_update_collision_post()
 	
 	# デバッグ用更新.
-	_update_debug()
+	#_update_debug()
 
 ## 飛び降りフラグの設定.
 func _set_fall_through(b:bool) -> void:
@@ -82,14 +82,18 @@ func _update_moving() -> void:
 	
 	if _is_fall_through:
 		# 飛び降り中.
-		if Input.is_action_pressed("ui_down") == false:
+		if _check_fall_through() == false:
 			# 飛び降り終了.
 			_set_fall_through(false)
-	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
+	elif _check_fall_through():
 		# 飛び降り開始.
 		_set_fall_through(true)
+		# X方向の速度を0にしてしまう.
+		# ※これをしないと is_on_floor() が falseにならない.
+		velocity.x = 0
+		return
 
-	elif checkJump():
+	elif _checkJump():
 		# 接地していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
 	
@@ -98,8 +102,8 @@ func _update_moving() -> void:
 
 
 ## ジャンプチェック.
-func checkJump() -> bool:
-	if Input.is_action_just_pressed("ui_accept") == false:
+func _checkJump() -> bool:
+	if Input.is_action_just_pressed("action") == false:
 		# ジャンプボタンを押していない.
 		return false
 	if is_on_floor() == false:
@@ -109,10 +113,16 @@ func checkJump() -> bool:
 	# ジャンプする.
 	return true
 	
+## 飛び降り判定.
+func _check_fall_through() -> bool:
+	if Input.is_action_pressed("action"):
+		if Input.is_action_pressed("ui_down"):
+			return true # 下＋ジャンプ.
+	return false
+	
 ## 左右移動の更新.
 func _update_horizontal_moving() -> void:
 	# 左右キーで移動.
-	_direction = 0
 	if Input.is_action_pressed("ui_left"):
 		_direction = -1
 	elif Input.is_action_pressed("ui_right"):
@@ -202,3 +212,4 @@ func _update_debug() -> void:
 	_label.visible = true
 	_label.text = "stomp:%d"%_stomp_tile
 	_label.text += "\nis_floor:%s"%("true" if is_on_floor() else "false")
+	_label.text += "\n" + str(get_floor_normal())
