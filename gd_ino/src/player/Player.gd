@@ -39,7 +39,7 @@ var _is_damage = false
 # private functions.
 # ---------------------------------
 ## 更新.
-func _physics_process(delta: float) -> void:
+func update(delta: float) -> void:
 	_timer_anim += delta
 	
 	# 移動処理.
@@ -49,25 +49,30 @@ func _physics_process(delta: float) -> void:
 	_is_left = (_direction > 0.0)
 	_spr.flip_h = _is_left
 	_spr.frame = _get_anim()
-	
-	# コリジョンレイヤーの設定.
-	_update_collision_layer()
 
 	move_and_slide()
 	if is_on_floor():
-		_is_fall_through = false # 着地したら飛び降り終了.
+		_set_fall_through(false) # 着地したら飛び降り終了.
 	
 	_update_collision_post()
 	
 	# デバッグ用更新.
 	_update_debug()
 
+## 飛び降りフラグの設定.
+func _set_fall_through(b:bool) -> void:
+	if _is_fall_through == b:
+		return # すでに設定されていれば更新不要.
+	
+	_is_fall_through = b
+	# コリジョンレイヤーの設定.
+	_update_collision_layer()
+
 ## 移動処理.
 func _update_moving() -> void:
 	if _is_damage:
 		# ダメージ処理.
 		velocity.y = -_config.jump_velocity
-		print("damage")
 		_is_damage = false
 		return
 	
@@ -79,14 +84,14 @@ func _update_moving() -> void:
 		# 飛び降り中.
 		if Input.is_action_pressed("ui_down") == false:
 			# 飛び降り終了.
-			_is_fall_through = false
+			_set_fall_through(false)
 	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
 		# 飛び降り開始.
-		_is_fall_through = true
+		_set_fall_through(true)
+
 	elif checkJump():
 		# 接地していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
-		print("jump")
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
@@ -107,6 +112,7 @@ func checkJump() -> bool:
 ## 左右移動の更新.
 func _update_horizontal_moving() -> void:
 	# 左右キーで移動.
+	_direction = 0
 	if Input.is_action_pressed("ui_left"):
 		_direction = -1
 	elif Input.is_action_pressed("ui_right"):
@@ -167,6 +173,10 @@ func _update_collision_post() -> void:
 		if v == Map.eType.SPIKE:
 			_is_damage = true # ダメージ処理は最優先.
 			continue # 移動処理に直接の影響はない.
+		
+		if pos.y < position.y:
+			# プレイヤーよりも上にあるタイルは処理不要.
+			continue
 			
 		var d = pos.x - position.x
 		if d < dist:

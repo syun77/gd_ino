@@ -21,7 +21,8 @@ func _ready() -> void:
 	_update_camera(true)
 
 ## 更新.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	_player.update(delta)
 	_update_camera(false)
 
 ## カメラの位置を更新.
