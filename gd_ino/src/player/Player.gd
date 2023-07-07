@@ -28,6 +28,8 @@ var _is_left = true
 var _is_fall_through = false
 ## 方向.
 var _direction = 0
+## 踏んでいる床.
+var _stompTile = Map.eType.NONE
 
 # ---------------------------------
 # private functions.
@@ -48,16 +50,12 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("ui_accept") and Input.is_action_pressed("ui_down"):
 		# 飛び降り開始.
 		_is_fall_through = true
-	elif Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		# ジャンプ.
+	elif checkJump():
+		# 設置していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
-
-	# 左右で移動.
-	if Input.is_action_pressed("ui_left"):
-		_direction = -1
-	elif Input.is_action_pressed("ui_right"):
-		_direction = 1
-	velocity.x = velocity.x * (1.0 - _config.ground_acc_ratio) + _direction * _config.move_speed * _config.ground_acc_ratio
+	
+	# 左右移動の更新.
+	_update_horizontal_moving()
 	# 向きを更新.
 	_is_left = (_direction > 0.0)
 	_spr.flip_h = _is_left
@@ -71,7 +69,37 @@ func _physics_process(delta: float) -> void:
 		_is_fall_through = false # 着地したら飛び降り終了.
 	
 	_update_collision_post(delta)
+
+## ジャンプチェック.
+func checkJump() -> bool:
+	if Input.is_action_just_pressed("ui_accept") == false:
+		# ジャンプボタンを押していない.
+		return false
+	if is_on_floor() == false:
+		# 接地していない.
+		return false
 	
+	# ジャンプする.
+	return true
+	
+## 左右移動の更新.
+func _update_horizontal_moving() -> void:
+	# 左右キーで移動.
+	if Input.is_action_pressed("ui_left"):
+		_direction = -1
+	elif Input.is_action_pressed("ui_right"):
+		_direction = 1
+
+	var MOVE_SPEED = _config.move_speed
+	var AIR_ACC_RATIO = _config.air_acc_ratio
+	var GROUND_ACC_RATIO = _config.ground_acc_ratio
+	
+	if is_on_floor() == false:
+		# 空中移動.
+		velocity.x = velocity.x * (1.0 - AIR_ACC_RATIO) + _direction * MOVE_SPEED * AIR_ACC_RATIO
+	else:
+		# 地上の移動
+		velocity.x = velocity.x * (1.0 - GROUND_ACC_RATIO) + _direction * MOVE_SPEED * GROUND_ACC_RATIO
 ## アニメーションフレーム番号を取得する.
 func _get_anim() -> int:
 	var t = int(_timer_anim * 8)
