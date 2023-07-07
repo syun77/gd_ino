@@ -16,6 +16,8 @@ var ANIM_DEAD_TBL = []
 @onready var _config:Config = preload("res://assets/config.tres")
 ## Sprite.
 @onready var _spr = $Sprite
+## デバッグ用ラベル.
+@onready var _label = $Label
 
 # ---------------------------------
 # var.
@@ -29,7 +31,9 @@ var _is_fall_through = false
 ## 方向.
 var _direction = 0
 ## 踏んでいる床.
-var _stompTile = Map.eType.NONE
+var _stomp_tile = Map.eType.NONE
+## ダメージ処理フラグ.
+var _is_damage = false
 
 # ---------------------------------
 # private functions.
@@ -56,6 +60,7 @@ func _physics_process(delta: float) -> void:
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
+	
 	# 向きを更新.
 	_is_left = (_direction > 0.0)
 	_spr.flip_h = _is_left
@@ -68,7 +73,10 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_is_fall_through = false # 着地したら飛び降り終了.
 	
-	_update_collision_post(delta)
+	_update_collision_post()
+	
+	# デバッグ用更新.
+	_update_debug()
 
 ## ジャンプチェック.
 func checkJump() -> bool:
@@ -92,14 +100,28 @@ func _update_horizontal_moving() -> void:
 
 	var MOVE_SPEED = _config.move_speed
 	var AIR_ACC_RATIO = _config.air_acc_ratio
-	var GROUND_ACC_RATIO = _config.ground_acc_ratio
 	
 	if is_on_floor() == false:
 		# 空中移動.
 		velocity.x = velocity.x * (1.0 - AIR_ACC_RATIO) + _direction * MOVE_SPEED * AIR_ACC_RATIO
-	else:
-		# 地上の移動
-		velocity.x = velocity.x * (1.0 - GROUND_ACC_RATIO) + _direction * MOVE_SPEED * GROUND_ACC_RATIO
+		return
+
+	# 地上の移動.
+	var GROUND_ACC_RATIO = _config.ground_acc_ratio
+	var SCROLLPANEL_SPEED = _config.scroll_panel_speed
+	# 前回の速度を減衰させる.
+	var base = velocity.x * (1.0 - GROUND_ACC_RATIO)
+	
+	# 踏んでいるタイルごとの処理.
+	match _stomp_tile:
+		Map.eType.NONE: # 普通の床.
+			velocity.x = base + _direction * MOVE_SPEED * GROUND_ACC_RATIO
+		Map.eType.SCROLL_L: # ベルト床(左).
+			velocity.x = base + (_direction * MOVE_SPEED - SCROLLPANEL_SPEED) * GROUND_ACC_RATIO
+		Map.eType.SCROLL_R: # ベルト床(右).
+			velocity.x = base + (_direction * MOVE_SPEED + SCROLLPANEL_SPEED) * GROUND_ACC_RATIO
+
+		
 ## アニメーションフレーム番号を取得する.
 func _get_anim() -> int:
 	var t = int(_timer_anim * 8)
@@ -114,8 +136,11 @@ func _update_collision_layer() -> void:
 	else:
 		collision_mask |= oneway_bit
 
-func _update_collision_post(delta:float) -> void:
-	# 衝突したコリジョンの影響を処理する.
+func _update_collision_post() -> void:
+	# 衝突したコリジョンに対応するフラグを設定する.
+	var dist = 99999 # 一番近いオブジェクトだけ処理する.
+	_stomp_tile = Map.eType.NONE # 処理するタイル.
+	
 	for i in range(get_slide_collision_count()):
 		var col:KinematicCollision2D = get_slide_collision(i)
 		# 衝突位置.
@@ -123,7 +148,15 @@ func _update_collision_post(delta:float) -> void:
 		var v = Map.get_floor_type(pos)
 		if v == Map.eType.NONE:
 			continue # 何もしない.
-		_update_floor_type(delta, v)
+		if v == Map.eType.SPIKE:
+			_is_damage = true # ダメージ処理は最優先.
+			continue # 移動処理に直接の影響はない.
+			
+		var d = pos.x - position.x
+		if d < dist:
+			# より近い.
+			dist = d
+			_stomp_tile = v
 
 ## 床種別に対応した処理をする.
 func _update_floor_type(delta:float, v:Map.eType) -> bool:
@@ -137,3 +170,8 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 			velocity.x += _config.scroll_panel_speed * delta
 	
 	return ret
+
+# デバッグ用更新.
+func _update_debug() -> void:
+	_label.visible = true
+	_label.text = "stomp:%d"%_stomp_tile

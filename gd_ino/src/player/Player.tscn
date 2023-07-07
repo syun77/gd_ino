@@ -19,3 +19,11 @@ vframes = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_u0tnx")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -24.0
+offset_top = -72.0
+offset_right = 16.0
+offset_bottom = -49.0
+text = "Debug"
