@@ -87,7 +87,7 @@ func _update_recovery(delta:float) -> void:
 		if _timer_recovery >= v:
 			# HP回復.
 			hp += 1
-			Common.play_se("heal")
+			Common.play_se("heal", 1)
 			_timer_recovery -= v
 	else:
 		_timer_recovery = 0	
