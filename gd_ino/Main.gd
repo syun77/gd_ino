@@ -15,6 +15,9 @@ extends Node2D
 # ---------------------------------
 ## 開始.
 func _ready() -> void:
+	# 共通.
+	var layers = {} # 今回ゲームオブジェクトのLayerは存在しない.
+	Common.setup(self, layers, _player, _camera)
 	# タイルマップを設定.
 	Map.setup(_map)
 	# カメラをワープ.
@@ -27,9 +30,9 @@ func _physics_process(delta: float) -> void:
 
 ## カメラの位置を更新.
 func _update_camera(is_warp:bool) -> void:
+	_camera.position_smoothing_enabled = true
 	if is_warp:
+		# TODO: カメラワープは未実装.
 		_camera.position_smoothing_enabled = false
 	_camera.position = _player.position
-	if is_warp:
-		_camera.position_smoothing_enabled = true
 	

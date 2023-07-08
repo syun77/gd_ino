@@ -82,6 +82,7 @@ func _update_moving() -> void:
 			# ダメージ処理.
 			velocity.y = -_config.jump_velocity
 			_timer_muteki = _config.muteki_time
+			Common.play_se("damage")
 			return
 	
 	# move_and_slide()で足元のタイルを判定したいので
@@ -104,6 +105,7 @@ func _update_moving() -> void:
 	elif _checkJump():
 		# 接地していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
+		Common.play_se("jump")
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
