@@ -17,12 +17,15 @@ layer_0/tile_data = PackedInt32Array(1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 65537, 
 [node name="Player" parent="." instance=ExtResource("2_rjip2")]
 position = Vector2(992, 1088)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
-
-[node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_fwcs8")
+[node name="ItemLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="UIHeath" parent="UILayer" instance=ExtResource("5_nt1as")]
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_fwcs8")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true

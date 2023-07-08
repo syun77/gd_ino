@@ -9,6 +9,12 @@ class_name Player
 var ANIM_NORMAL_TBL = [0, 1]
 var ANIM_DEAD_TBL = []
 
+enum eState {
+	READY,
+	MAIN,
+	DEAD,
+}
+
 # ---------------------------------
 # onready.
 # ---------------------------------
@@ -22,14 +28,16 @@ var ANIM_DEAD_TBL = []
 # ---------------------------------
 # var.
 # ---------------------------------
+## 状態.
+var _state = eState.READY
 ## アニメーション用タイマー.
 var _timer_anim = 0.0
 ## フレームカウンタ.
 var _cnt = 0
 ## 無敵タイマー.
 var _timer_muteki = 0.0
-## 左向きかどうか.
-var _is_left = true
+## 右向きかどうか.
+var _is_right = true # 左向きで開始.
 ## 飛び降り中かどうか.
 var _is_fall_through = false
 ## 方向.
@@ -45,11 +53,45 @@ var _timer_recovery = 0.0
 # ---------------------------------
 # public functions.
 # ---------------------------------
+## 開始.
+func start() -> void:
+	_state = eState.MAIN
+	
+## 死亡したかどうか.
+func is_dead() -> bool:
+	return _state == eState.DEAD
+
 ## 更新.
 func update(delta: float) -> void:
-	# タイマー関連の更新.
-	_timer_anim += delta
 	_cnt += 1
+	_timer_anim += delta
+
+	match _state:
+		eState.READY:
+			_update_ready()
+		eState.MAIN:
+			_update_main(delta)
+		eState.DEAD:
+			_update_dead(delta)
+	
+	# デバッグ用更新.
+	#_update_debug()
+
+# ---------------------------------
+# private functions.
+# ---------------------------------
+func _ready() -> void:
+	hp = _config.hp_init
+	max_hp = hp
+	_spr.flip_h = _is_right
+
+## 更新 > 開始.
+func _update_ready() -> void:
+	pass
+
+## 更新 > メイン.	
+func _update_main(delta:float) -> void:
+	# タイマー関連の更新.
 	if _timer_muteki > 0:
 		_timer_muteki -= delta
 
@@ -67,16 +109,23 @@ func update(delta: float) -> void:
 		_set_fall_through(false) # 着地したら飛び降り終了.
 	
 	_update_collision_post()
-	
-	# デバッグ用更新.
-	#_update_debug()
 
-# ---------------------------------
-# private functions.
-# ---------------------------------
-func _ready() -> void:
-	hp = _config.hp_init
-	max_hp = hp
+## 更新 > 死亡.
+func _update_dead(delta:float) -> void:
+	# タイマー関連の更新.
+	_timer_anim += delta
+	_timer_muteki = 0
+	_spr.visible = true
+	
+	# 移動.
+	velocity.y += _config.gravity
+	_update_horizontal_moving(false)
+	move_and_slide()
+	
+	# アニメーションを更新.
+	var idx = (_cnt/7)%4
+	var tbl = [2, 3, 4, 5]
+	_spr.frame = tbl[idx]
 	
 ## HP回復処理.
 func _update_recovery(delta:float) -> void:
@@ -111,6 +160,9 @@ func _update_moving() -> void:
 			_timer_muteki = _config.muteki_time
 			Common.play_se("damage")
 			hp -= 1
+			if hp <= 0:
+				# 死亡処理へ.
+				_state = eState.DEAD
 			return
 	
 	# move_and_slide()で足元のタイルを判定したいので
@@ -158,12 +210,15 @@ func _check_fall_through() -> bool:
 	return false
 	
 ## 左右移動の更新.
-func _update_horizontal_moving() -> void:
-	# 左右キーで移動.
-	if Input.is_action_pressed("ui_left"):
-		_direction = -1
-	elif Input.is_action_pressed("ui_right"):
-		_direction = 1
+func _update_horizontal_moving(can_move:bool=true) -> void:
+	if can_move:
+		# 左右キーで移動.
+		if Input.is_action_pressed("ui_left"):
+			_direction = -1
+		elif Input.is_action_pressed("ui_right"):
+			_direction = 1
+	else:
+		_direction = 0
 
 	var MOVE_SPEED = _config.move_speed
 	var AIR_ACC_RATIO = _config.air_acc_ratio
@@ -198,8 +253,8 @@ func _update_anim() -> void:
 		_spr.visible = false
 	
 	# 向きを更新.
-	_is_left = (_direction > 0.0)
-	_spr.flip_h = _is_left
+	_is_right = (_direction >= 0.0)
+	_spr.flip_h = _is_right
 	_spr.frame = _get_anim()
 
 ## アニメーションフレーム番号を取得する.
