@@ -22,6 +22,8 @@ const FPS = 60
 @export var fall_speed_max = 800.0#4.0
 ## ライフの回復インターバル.
 @export var life_ratio = 400.0 / FPS # 6.666sec
+## ダメージ時の無敵タイマー.
+@export var muteki_time = 50.0 / 60.0 # 0.8333sec
 
 # ---------------------------------
 @export_category("地形")

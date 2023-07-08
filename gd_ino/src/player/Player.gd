@@ -24,6 +24,10 @@ var ANIM_DEAD_TBL = []
 # ---------------------------------
 ## アニメーション用タイマー.
 var _timer_anim = 0.0
+## フレームカウンタ.
+var _cnt = 0
+## 無敵タイマー.
+var _timer_muteki = 0.0
 ## 左向きかどうか.
 var _is_left = true
 ## 飛び降り中かどうか.
@@ -40,15 +44,17 @@ var _is_damage = false
 # ---------------------------------
 ## 更新.
 func update(delta: float) -> void:
+	# タイマー関連の更新.
 	_timer_anim += delta
+	_cnt += 1
+	if _timer_muteki > 0:
+		_timer_muteki -= delta
 	
 	# 移動処理.
 	_update_moving()
 	
-	# 向きを更新.
-	_is_left = (_direction > 0.0)
-	_spr.flip_h = _is_left
-	_spr.frame = _get_anim()
+	# アニメーション更新.
+	_update_anim()
 
 	move_and_slide()
 	if is_on_floor():
@@ -71,10 +77,12 @@ func _set_fall_through(b:bool) -> void:
 ## 移動処理.
 func _update_moving() -> void:
 	if _is_damage:
-		# ダメージ処理.
-		velocity.y = -_config.jump_velocity
 		_is_damage = false
-		return
+		if _timer_muteki <= 0:
+			# ダメージ処理.
+			velocity.y = -_config.jump_velocity
+			_timer_muteki = _config.muteki_time
+			return
 	
 	# move_and_slide()で足元のタイルを判定したいので
 	# 常に重力を加算.
@@ -99,7 +107,6 @@ func _update_moving() -> void:
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
-
 
 ## ジャンプチェック.
 func _checkJump() -> bool:
@@ -153,7 +160,18 @@ func _update_horizontal_moving() -> void:
 		Map.eType.SLIP: # すべる床.
 			pass # 地上では加速できない.
 
-		
+## アニメーションの更新.
+func _update_anim() -> void:
+	# ダメージ点滅.
+	_spr.visible = true
+	if _timer_muteki > 0.0 and _cnt%10 < 5:
+		_spr.visible = false
+	
+	# 向きを更新.
+	_is_left = (_direction > 0.0)
+	_spr.flip_h = _is_left
+	_spr.frame = _get_anim()
+
 ## アニメーションフレーム番号を取得する.
 func _get_anim() -> int:
 	var t = int(_timer_anim * 8)

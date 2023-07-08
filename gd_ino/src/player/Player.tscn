@@ -25,10 +25,10 @@ shape = SubResource("RectangleShape2D_u0tnx")
 
 [node name="Label" type="Label" parent="."]
 visible = false
-offset_left = -48.0
-offset_top = -152.0
-offset_right = 51.0
-offset_bottom = -104.0
+offset_left = -352.0
+offset_top = -160.0
+offset_right = -253.0
+offset_bottom = -112.0
 theme = SubResource("Theme_2k1v7")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
