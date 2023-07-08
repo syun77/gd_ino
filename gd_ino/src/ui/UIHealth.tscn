@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4l2qr5ybm4ju"]
+
+[ext_resource type="Texture2D" uid="uid://btrts78164mbt" path="res://assets/images/health.png" id="1_2gy47"]
+[ext_resource type="Script" path="res://src/ui/UIHealth.gd" id="1_kneyp"]
+
+[node name="UIHealth" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kneyp")
+
+[node name="Health00" type="Sprite2D" parent="."]
+texture = ExtResource("1_2gy47")
+centered = false
+hframes = 2

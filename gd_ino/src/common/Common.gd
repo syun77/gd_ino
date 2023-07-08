@@ -6,13 +6,14 @@ extends Node
 # ----------------------------------------
 # consts
 # ----------------------------------------
+# 同時再生可能なサウンドの数.
 const MAX_SOUND = 8
 
 ## コリジョンレイヤー.
 enum eCollisionLayer {
-	PLAYER = 1,
-	WALL = 2,
-	ONEWAY = 3,
+	PLAYER = 1, # プレイヤー.
+	WALL = 2, # 壁・床.
+	ONEWAY = 3, # 一方通行床.
 }
 
 # ----------------------------------------
@@ -25,7 +26,7 @@ var _camera:Camera2D = null
 var _player:Player = null
 var _snds:Array = []
 var _snd_tbl = {
-	"damage" : "res://assets/sound/damage.wav",
+	"damage": "res://assets/sound/damage.wav",
 	"heal": "res://assets/sound/heal.wav",
 	"itemget2": "res://assets/sound/itemget2.wav",
 	"itemget": "res://assets/sound/itemget.wav",
@@ -67,6 +68,7 @@ func setup(root, layers, player:Player, camera:Camera2D) -> void:
 	_layers = layers
 	_player = player
 	_camera = camera
+	# AudioStreamPlayerをあらかじめ作っておく.
 	for i in range(MAX_SOUND):
 		var snd = AudioStreamPlayer.new()
 		#snd.volume_db = -4

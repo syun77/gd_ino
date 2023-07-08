@@ -26,6 +26,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=960
 window/stretch/mode="viewport"
 
+[editor]
+
+movie_writer/movie_file="movie.avi"
+
 [input]
 
 action={

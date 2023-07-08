@@ -38,9 +38,12 @@ var _direction = 0
 var _stomp_tile = Map.eType.NONE
 ## ダメージ処理フラグ.
 var _is_damage = false
+## 回復時間.
+var _timer_recovery = 0.0
+
 
 # ---------------------------------
-# private functions.
+# public functions.
 # ---------------------------------
 ## 更新.
 func update(delta: float) -> void:
@@ -49,6 +52,9 @@ func update(delta: float) -> void:
 	_cnt += 1
 	if _timer_muteki > 0:
 		_timer_muteki -= delta
+
+	# HP回復処理.
+	_update_recovery(delta)
 	
 	# 移動処理.
 	_update_moving()
@@ -65,6 +71,27 @@ func update(delta: float) -> void:
 	# デバッグ用更新.
 	#_update_debug()
 
+# ---------------------------------
+# private functions.
+# ---------------------------------
+func _ready() -> void:
+	hp = _config.hp_init
+	max_hp = hp
+	
+## HP回復処理.
+func _update_recovery(delta:float) -> void:
+	# HPが減っていたら回復処理.
+	if hp != max_hp:
+		_timer_recovery += delta
+		var v = _config.life_ratio
+		if _timer_recovery >= v:
+			# HP回復.
+			hp += 1
+			Common.play_se("heal")
+			_timer_recovery -= v
+	else:
+		_timer_recovery = 0	
+	
 ## 飛び降りフラグの設定.
 func _set_fall_through(b:bool) -> void:
 	if _is_fall_through == b:
@@ -83,6 +110,7 @@ func _update_moving() -> void:
 			velocity.y = -_config.jump_velocity
 			_timer_muteki = _config.muteki_time
 			Common.play_se("damage")
+			hp -= 1
 			return
 	
 	# move_and_slide()で足元のタイルを判定したいので
@@ -233,3 +261,21 @@ func _update_debug() -> void:
 	_label.text = "stomp:%d"%_stomp_tile
 	_label.text += "\nis_floor:%s"%("true" if is_on_floor() else "false")
 	_label.text += "\n" + str(get_floor_normal())
+
+# ---------------------------------
+# properties.
+# ---------------------------------
+## HP.
+var hp:int = 0:
+	get:
+		return hp
+	set(v):
+		hp = v
+		if hp < 0:
+			hp = 0
+## 最大HP
+var max_hp:int = 0:
+	get:
+		return max_hp
+	set(v):
+		max_hp = v

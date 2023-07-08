@@ -2,6 +2,14 @@ extends Node2D
 # =================================
 # メインシーン.
 # =================================
+# ---------------------------------
+# const.
+# ---------------------------------
+enum eState {
+	READY, # げーむ　はじまる！
+	MAIN, # メインゲーム.
+	GAMEOVER, # げーむ　おわた。
+}
 
 # ---------------------------------
 # onready.
@@ -9,6 +17,7 @@ extends Node2D
 @onready var _player = $Player
 @onready var _camera = $Camera2D
 @onready var _map = $TileMap
+@onready var _ui_health = $UILayer/UIHeath
 
 # ---------------------------------
 # private functions.
@@ -27,6 +36,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_player.update(delta)
 	_update_camera(false)
+	# UIの更新.
+	_update_ui()
 
 ## カメラの位置を更新.
 func _update_camera(is_warp:bool) -> void:
@@ -36,3 +47,6 @@ func _update_camera(is_warp:bool) -> void:
 		_camera.position_smoothing_enabled = false
 	_camera.position = _player.position
 	
+## UIの更新.
+func _update_ui() -> void:
+	_ui_health.set_hp(_player.hp, _player.max_hp)

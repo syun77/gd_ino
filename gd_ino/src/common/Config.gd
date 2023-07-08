@@ -8,6 +8,8 @@ const FPS = 60
 
 # ---------------------------------
 @export_category("プレイヤー")
+## 初期HP.
+@export var hp_init = 3
 ## 移動速度.
 @export var move_speed = 400.0#2.0
 ## 地面での加速係数.
