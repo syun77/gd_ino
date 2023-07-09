@@ -36,6 +36,7 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 @onready var _player = $Player
 @onready var _camera = $Camera2D
 @onready var _map = $TileMap
+@onready var _bgm = $BGM
 @onready var _ui_health = $UILayer/UIHeath
 @onready var _ui_caption = $UILayer/UICaption
 @onready var _ui_item_list = $UILayer/UIItemList
@@ -135,6 +136,7 @@ func _update_main(delta:float) -> void:
 				_ui_caption.start(UICaption.eType.GAMEOVER)
 			elif _gain_item != Map.eItem.NONE:
 				# アイテム獲得メッセージを表示.
+				_bgm.stop()
 				_main_step = eMainStep.ITEM_MSG
 				_item_ui = UI_ITEM_OBJ.instantiate()
 				_ui_layer.add_child(_item_ui)
@@ -142,6 +144,7 @@ func _update_main(delta:float) -> void:
 		eMainStep.ITEM_MSG:
 			if is_instance_valid(_item_ui) == false:
 				# アイテム獲得メッセージ表示終了.
+				_bgm.play()
 				_ui_item_list.gain(_gain_item)
 				_player.reset_item()
 				_main_step = eMainStep.MAIN
