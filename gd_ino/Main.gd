@@ -21,6 +21,7 @@ enum eState {
 @onready var _camera = $Camera2D
 @onready var _map = $TileMap
 @onready var _ui_health = $UILayer/UIHeath
+@onready var _ui_caption = $UILayer/UICaption
 @onready var _item_layer = $ItemLayer
 
 # ---------------------------------
@@ -45,6 +46,9 @@ func _ready() -> void:
 	Map.setup(_map)
 	# カメラをワープ.
 	_update_camera(true)
+	
+	# キャプションを表示.
+	_ui_caption.start(UICaption.eType.START)
 
 ## 更新.
 func _physics_process(delta: float) -> void:
@@ -58,6 +62,10 @@ func _physics_process(delta: float) -> void:
 			_update_gameover(delta)
 	# UIの更新.
 	_update_ui()
+	
+	# クイックリスタート.
+	if Input.is_action_just_pressed("reset"):
+		get_tree().change_scene_to_file("res://Main.tscn")
 
 ## 更新 > ゲーム開始.
 func _update_ready(delta:float) -> void:
@@ -71,6 +79,7 @@ func _update_main(delta:float) -> void:
 	if _player.is_dead():
 		_timer = 0
 		_state = eState.GAMEOVER
+		_ui_caption.start(UICaption.eType.GAMEOVER)
 		
 ## 更新 > ゲームオーバー.
 func _update_gameover(delta:float) -> void:
@@ -83,11 +92,17 @@ func _update_gameover(delta:float) -> void:
 
 ## カメラの位置を更新.
 func _update_camera(is_warp:bool) -> void:
-	_camera.position_smoothing_enabled = true
+	# カメラの注視点
+	var target = _player.position
+	target.y += -64 # 1タイルずらす
+	target.x += _player.velocity.x * 0.7
+	
 	if is_warp:
-		# TODO: カメラワープは未実装.
-		_camera.position_smoothing_enabled = false
-	_camera.position = _player.position
+		# カメラワープが有効.
+		_camera.position = target
+	else:
+		# 通常はスムージングを行う.
+		_camera.position += (target - _camera.position) * 0.05
 	
 ## UIの更新.
 func _update_ui() -> void:

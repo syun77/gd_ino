@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfegnd2mn10k1"]
+
+[ext_resource type="Script" path="res://src/ui/UICaption.gd" id="1_kxk72"]
+[ext_resource type="Texture2D" uid="uid://c7uq6kw2b8yay" path="res://assets/images/caption.png" id="1_qj2ro"]
+
+[node name="UICaption" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kxk72")
+
+[node name="Caption" type="Sprite2D" parent="."]
+position = Vector2(640, 336)
+texture = ExtResource("1_qj2ro")
+vframes = 2
