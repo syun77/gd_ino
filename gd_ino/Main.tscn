@@ -21,6 +21,8 @@ position = Vector2(992, 1088)
 [node name="ItemLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
+[node name="ParticleLayer" type="CanvasLayer" parent="."]
+
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="UIHeath" parent="UILayer" instance=ExtResource("5_nt1as")]

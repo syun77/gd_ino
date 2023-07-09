@@ -22,7 +22,9 @@ enum eState {
 @onready var _map = $TileMap
 @onready var _ui_health = $UILayer/UIHeath
 @onready var _ui_caption = $UILayer/UICaption
+
 @onready var _item_layer = $ItemLayer
+@onready var _particle_layer = $ParticleLayer
 
 # ---------------------------------
 # var.
@@ -40,6 +42,7 @@ func _ready() -> void:
 	# 共通.
 	var layers = {
 		"item": _item_layer,
+		"particle": _particle_layer,
 	}
 	Common.setup(self, layers, _player, _camera)
 	# タイルマップを設定.
@@ -47,7 +50,7 @@ func _ready() -> void:
 	# カメラをワープ.
 	_update_camera(true)
 	
-	# キャプションを表示.
+	# 開始キャプションを表示.
 	_ui_caption.start(UICaption.eType.START)
 
 ## 更新.
@@ -70,6 +73,7 @@ func _physics_process(delta: float) -> void:
 ## 更新 > ゲーム開始.
 func _update_ready(delta:float) -> void:
 	if _timer >= TIMER_READY:
+		# プレイヤー動く.
 		_player.start()
 		_state = eState.MAIN
 ## 更新 > メイン.
@@ -95,7 +99,7 @@ func _update_camera(is_warp:bool) -> void:
 	# カメラの注視点
 	var target = _player.position
 	target.y += -64 # 1タイルずらす
-	target.x += _player.velocity.x * 0.7
+	target.x += _player.velocity.x * 0.7 # 移動先を見る.
 	
 	if is_warp:
 		# カメラワープが有効.
@@ -106,4 +110,5 @@ func _update_camera(is_warp:bool) -> void:
 	
 ## UIの更新.
 func _update_ui() -> void:
+	# Heath UIを更新.
 	_ui_health.set_hp(_player.hp, _player.max_hp)

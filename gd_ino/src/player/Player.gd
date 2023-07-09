@@ -7,12 +7,23 @@ class_name Player
 # const.
 # ---------------------------------
 var ANIM_NORMAL_TBL = [0, 1]
-var ANIM_DEAD_TBL = []
 
+const JUMP_SCALE_TIME := 0.2
+const JUMP_SCALE_VAL_JUMP := 0.2
+const JUMP_SCALE_VAL_LANDING := 0.25
+
+## 状態.
 enum eState {
 	READY,
 	MAIN,
 	DEAD,
+}
+
+## ジャンプスケール.
+enum eJumpScale {
+	NONE,
+	JUMPING, # ジャンプ開始.
+	LANDING, # 着地開始.
 }
 
 # ---------------------------------
@@ -38,6 +49,8 @@ var _cnt = 0
 var _timer_muteki = 0.0
 ## 右向きかどうか.
 var _is_right = true # 左向きで開始.
+## 着地しているかどうか.
+var _is_landing = false
 ## 飛び降り中かどうか.
 var _is_fall_through = false
 ## 方向.
@@ -48,7 +61,13 @@ var _stomp_tile = Map.eType.NONE
 var _is_damage = false
 ## 回復時間.
 var _timer_recovery = 0.0
-
+## ジャンプスケール.
+var _jump_scale = eJumpScale.NONE
+## ジャンプスケールタイマー.
+var _jump_scale_timer = 0.0
+## ジャンプ回数.
+var _jump_cnt = 0
+var _jump_cnt_max = 1
 
 # ---------------------------------
 # public functions.
@@ -105,6 +124,16 @@ func _update_main(delta:float) -> void:
 	_update_anim()
 
 	move_and_slide()
+	
+	if _is_landing == false and is_on_floor():
+		# 着地した瞬間.
+		_jump_scale = eJumpScale.LANDING
+		_jump_scale_timer = JUMP_SCALE_TIME
+
+	_is_landing = is_on_floor()
+	
+	_update_jump_scale_anim(delta)
+	
 	if is_on_floor():
 		_set_fall_through(false) # 着地したら飛び降り終了.
 	
@@ -121,6 +150,8 @@ func _update_dead(delta:float) -> void:
 	velocity.y += _config.gravity
 	_update_horizontal_moving(false)
 	move_and_slide()
+	
+	_update_jump_scale_anim(delta)
 	
 	# アニメーションを更新.
 	var idx = (_cnt/7)%4
@@ -186,6 +217,8 @@ func _update_moving() -> void:
 		# 接地していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
 		Common.play_se("jump")
+		_jump_scale = eJumpScale.JUMPING
+		_jump_scale_timer = JUMP_SCALE_TIME
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
@@ -309,6 +342,34 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 			velocity.x += _config.scroll_panel_speed * delta
 	
 	return ret
+
+# ジャンプ・着地によるスケールアニメーションの更新
+func _update_jump_scale_anim(delta:float) -> void:
+	if _jump_cnt >= _jump_cnt_max:
+		# 2段ジャンプ時はスケールしない.
+		_jump_scale_timer = 0
+		_jump_scale = eJumpScale.NONE
+		return
+	
+	_jump_scale_timer -= delta
+	if _jump_scale_timer <= 0:
+		# 演出終了
+		_jump_scale = eJumpScale.NONE
+	match _jump_scale:
+		eJumpScale.JUMPING:
+			# 縦に伸ばす
+			var d = JUMP_SCALE_VAL_JUMP * Ease.cube_in_out(_jump_scale_timer / JUMP_SCALE_TIME)
+			_spr.scale.x = 1 - d
+			_spr.scale.y = 1 + d * 3
+		eJumpScale.LANDING:
+			# 縦に潰す
+			var d = JUMP_SCALE_VAL_LANDING * Ease.back_in_out(_jump_scale_timer / JUMP_SCALE_TIME)
+			_spr.scale.x = 1 + d
+			_spr.scale.y = 1 - d * 1.5
+		_:
+			# もとに戻す
+			_spr.scale.x = 1
+			_spr.scale.y = 1
 
 # デバッグ用更新.
 func _update_debug() -> void:
