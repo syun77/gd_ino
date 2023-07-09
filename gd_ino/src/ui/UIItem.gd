@@ -3,12 +3,12 @@ extends Control
 # ========================================
 # アイテムUI
 # ========================================
-class_name ItemUI
+class_name UIItem
 
 # ----------------------------------------
 # const.
 # ----------------------------------------
-const TIME_WAIT = 0.5
+const TIME_WAIT = 0.1
 
 # ----------------------------------------
 # onready.
@@ -32,11 +32,13 @@ func setup(itemID:Map.eItem) -> void:
 	_item.frame = Item.SPR_FRAME_OFS + _itemID - 1
 	_window.frame = _itemID - 1
 	
+	_frame.color = Map.item_to_color(itemID)
+	
 	if Item.is_rare(itemID):
 		# レアアイテム.
-		Common.play_se("itemget")
+		Common.play_se("itemget", 2)
 	else:
-		Common.play_se("itemget2")
+		Common.play_se("itemget2", 2)
 	
 	_root.position.y = -1024
 

@@ -163,7 +163,8 @@ func _update_dead(delta:float) -> void:
 	_spr.visible = true
 	
 	# 移動.
-	velocity.y += _config.gravity
+	## 重力.
+	velocity.y = min(velocity.y + _config.gravity, _config.fall_speed_max)
 	_update_horizontal_moving(false)
 	move_and_slide()
 	

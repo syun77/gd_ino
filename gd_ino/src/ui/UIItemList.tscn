@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2w3a7gpfkbnn"]
+
+[ext_resource type="Script" path="res://src/ui/UIItemList.gd" id="1_blwno"]
+[ext_resource type="Texture2D" uid="uid://5d1jqt7ru6yi" path="res://assets/images/item_list.png" id="1_buv3h"]
+
+[node name="UIItemList" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blwno")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(976, 0)
+texture = ExtResource("1_buv3h")
+centered = false

@@ -69,6 +69,56 @@ enum eItem {
 	KEY = 23, # 未使用.
 }
 
+## 収集アイテム番号.
+const ITEM_BEGIN = eItem.FUJI # 開始.
+const ITEM_END = eItem.OMEGA # 終端.
+
+## アイテム種別.
+enum eItemType {
+	FUJI, # 富士系.
+	TAKA, # 鷹系.
+	NASU, # 茄子系.
+	HELL, # クソゲー.
+	OTHER, # その他.
+	
+	POWER_UP, # パワーアップ系.
+}
+
+func get_item_type(id:eItem) -> eItemType:
+	if eItem.FUJI <= id and id <= eItem.V:
+		return eItemType.FUJI
+	if eItem.TAKA <= id and id <= eItem.KATAKATA:
+		return eItemType.TAKA
+	if eItem.NASU <= id and id <= eItem.NAZUNA:
+		return eItemType.NASU
+	if eItem.GAMEHELL <= id and id <= eItem.POED:
+		return eItemType.HELL
+	if eItem.MILESTONE <= id and id <= eItem.OMEGA:
+		return eItemType.OTHER
+	
+	return eItemType.POWER_UP
+
+func item_to_color(id:eItem) -> Color:
+	var ret = Color.WHITE
+	match get_item_type(id):
+		eItemType.FUJI:
+			ret = Color.DEEP_PINK
+		eItemType.TAKA:
+			ret = Color.CORAL
+		eItemType.NASU:
+			ret = Color.MAGENTA
+		eItemType.HELL:
+			ret = Color.GREEN
+		eItemType.OTHER:
+			ret = Color.DODGER_BLUE
+		_:
+			ret = Color.YELLOW
+
+	if Item.is_rare(id) == false:
+		# レア系意外は暗くする.
+		ret = ret.lerp(Color.BLACK, 0.5)	
+	
+	return ret
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------

@@ -28,7 +28,7 @@ enum eMainStep {
 # preload.
 # ---------------------------------
 const ITEM_OBJ = preload("res://src/item/Item.tscn")
-const ITEM_UI_OBJ = preload("res://src/ui/ItemUI.tscn")
+const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 
 # ---------------------------------
 # onready.
@@ -38,6 +38,7 @@ const ITEM_UI_OBJ = preload("res://src/ui/ItemUI.tscn")
 @onready var _map = $TileMap
 @onready var _ui_health = $UILayer/UIHeath
 @onready var _ui_caption = $UILayer/UICaption
+@onready var _ui_item_list = $UILayer/UIItemList
 
 @onready var _item_layer = $ItemLayer
 @onready var _particle_layer = $ParticleLayer
@@ -54,7 +55,7 @@ var _timer = 0.0
 ## 獲得アイテム.
 var _gain_item = Map.eItem.NONE
 ## アイテムウィンドウ.
-var _item_ui:ItemUI = null
+var _item_ui:UIItem = null
 
 # ---------------------------------
 # private functions.
@@ -135,12 +136,13 @@ func _update_main(delta:float) -> void:
 			elif _gain_item != Map.eItem.NONE:
 				# アイテム獲得メッセージを表示.
 				_main_step = eMainStep.ITEM_MSG
-				_item_ui = ITEM_UI_OBJ.instantiate()
+				_item_ui = UI_ITEM_OBJ.instantiate()
 				_ui_layer.add_child(_item_ui)
 				_item_ui.setup(_gain_item)
 		eMainStep.ITEM_MSG:
 			if is_instance_valid(_item_ui) == false:
 				# アイテム獲得メッセージ表示終了.
+				_ui_item_list.gain(_gain_item)
 				_player.reset_item()
 				_main_step = eMainStep.MAIN
 		

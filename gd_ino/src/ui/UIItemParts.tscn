@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2gyvlyf5b2ey"]
+
+[ext_resource type="Script" path="res://src/ui/UIItemParts.gd" id="1_au486"]
+[ext_resource type="Texture2D" uid="uid://twqbcy75ig1f" path="res://assets/images/item_parts.png" id="1_hbshv"]
+
+[node name="UIItemParts" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_au486")
+
+[node name="Bg" type="ColorRect" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 16.0
+offset_bottom = 24.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+texture = ExtResource("1_hbshv")
+centered = false

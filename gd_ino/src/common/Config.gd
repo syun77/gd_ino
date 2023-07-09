@@ -21,7 +21,7 @@ const FPS = 60
 ## 重力加速度.
 @export var gravity = 35.0#0.2
 ## 落下の最高速度.
-@export var fall_speed_max = 800.0#4.0
+@export var fall_speed_max = 400.0#4.0
 ## ライフの回復インターバル.
 @export var life_ratio = 400.0 / FPS # 6.666sec
 ## ダメージ時の無敵タイマー.

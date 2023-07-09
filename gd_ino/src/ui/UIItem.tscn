@@ -1,17 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvvkgntj4wva3"]
 
-[ext_resource type="Script" path="res://src/ui/ItemUI.gd" id="1_amfqc"]
-[ext_resource type="Texture2D" uid="uid://dgmqto4knayb8" path="res://assets/tiles/tile.png" id="2_jedmv"]
-[ext_resource type="Texture2D" uid="uid://c0rd8ddmtpqq1" path="res://assets/images/item_msg.png" id="2_kcu81"]
+[ext_resource type="Script" path="res://src/ui/UIItem.gd" id="1_lwd47"]
+[ext_resource type="Texture2D" uid="uid://dgmqto4knayb8" path="res://assets/tiles/tile.png" id="2_ibdsa"]
+[ext_resource type="Texture2D" uid="uid://c0rd8ddmtpqq1" path="res://assets/images/item_msg.png" id="3_m3eg3"]
 
-[node name="ItemUI" type="Control"]
+[node name="UIItem" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_amfqc")
+script = ExtResource("1_lwd47")
 
 [node name="Root" type="Node2D" parent="."]
 
@@ -31,7 +31,7 @@ offset_bottom = 280.0
 [node name="Item" type="Sprite2D" parent="Root"]
 position = Vector2(640, 208)
 scale = Vector2(2, 2)
-texture = ExtResource("2_jedmv")
+texture = ExtResource("2_ibdsa")
 hframes = 16
 vframes = 8
 frame = 64
@@ -39,6 +39,6 @@ frame = 64
 [node name="Window" type="Sprite2D" parent="Root"]
 position = Vector2(640, 568)
 scale = Vector2(4, 4)
-texture = ExtResource("2_kcu81")
+texture = ExtResource("3_m3eg3")
 hframes = 4
 vframes = 10
