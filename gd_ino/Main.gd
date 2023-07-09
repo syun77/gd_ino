@@ -5,6 +5,10 @@ extends Node2D
 # ---------------------------------
 # const.
 # ---------------------------------
+# タイルマップのサイズを変更したらここを修正する必要がある.
+const MAP_WIDTH = 108
+const MAP_HEIGHT = 52
+
 const TIMER_READY = 50.0 / 60.0
 const TIMER_GAMEOVER = 0.5
 
@@ -13,6 +17,11 @@ enum eState {
 	MAIN, # メインゲーム.
 	GAMEOVER, # げーむ　おわた。
 }
+
+# ---------------------------------
+# preload.
+# ---------------------------------
+const ITEM_OBJ = preload("res://src/item/Item.tscn")
 
 # ---------------------------------
 # onready.
@@ -46,12 +55,33 @@ func _ready() -> void:
 	}
 	Common.setup(self, layers, _player, _camera)
 	# タイルマップを設定.
-	Map.setup(_map)
+	Map.setup(_map, MAP_WIDTH, MAP_HEIGHT)
 	# カメラをワープ.
 	_update_camera(true)
 	
+	# アイテムを生成.
+	_create_items()
+	
 	# 開始キャプションを表示.
 	_ui_caption.start(UICaption.eType.START)
+	
+## アイテムオブジェクトを生成.
+func _create_items() -> void:
+	for j in range(Map.height):
+		for i in range(Map.width):
+			var pos = Vector2i(i, j)
+			var id = Map.get_item(pos)
+			if id == Map.eItem.NONE:
+				continue # 生成不要.
+			
+			# アイテム生成.
+			var obj = ITEM_OBJ.instantiate()
+			obj.position = Map.grid_to_world(pos, true)
+			_item_layer.add_child(obj)
+			obj.setup(id)
+			
+			# タイルから消しておく.
+			Map.erase_cell(pos, Map.eTileLayer.GROUND)
 
 ## 更新.
 func _physics_process(delta: float) -> void:

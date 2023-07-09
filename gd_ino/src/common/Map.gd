@@ -25,57 +25,65 @@ enum eType {
 }
 
 ## アイテムID.
+## タイルのカスタムデータの "item" と連動している.
+## アイテム取得メッセージとも連動している.
 enum eItem {
 	NONE = 0, # 何もない.
 	
 	## アップグレード・特殊アイテム系.
 	JUMP_UP = 1, # ジャンプ回数上昇.
-	LIFE = 2, # ライフ最大値上昇.
-	POWER_UP = 3, # 未使用.
-	KEY = 4, # 未使用.
 	
 	## 収集アイテム系.
 	### 富士系.
-	FUJI = 10, # 富士山.
-	BUSHI = 11, # 武士.
-	APPLE = 12, # ふじリンゴ.
-	V = 13, # ブイ.
+	FUJI = 2, # 富士山.
+	BUSHI = 3, # 武士.
+	APPLE = 4, # ふじリンゴ.
+	V = 5, # ブイ.
 	
 	### 鷹系.
-	TAKA = 14, # 鷹.
-	SHOULDER = 15, # 肩.
-	DAGGER = 16, # ダガー.
-	KATAKATA = 17, # かたかた.
+	TAKA = 6, # 鷹.
+	SHOULDER = 7, # 肩.
+	DAGGER = 8, # ダガー.
+	KATAKATA = 9, # かたかた.
 	
 	### 茄子系.
-	NASU = 18, # 茄子.
-	BONUS = 19, # 棒と茄子.
-	NURSE = 20, # ナース.
-	NAZUNA = 21, # なずな.
+	NASU = 10, # 茄子.
+	BONUS = 11, # 棒と茄子.
+	NURSE = 12, # ナース.
+	NAZUNA = 13, # なずな.
 	
 	### クソゲー系.
-	GAMEHELL = 22, # ゲームヘル2000.
-	GUNDAM = 23, # 実写版ガンダム.
-	POED = 24, # PO'ed (ポエド).
+	GAMEHELL = 14, # ゲームヘル2000.
+	GUNDAM = 15, # 実写版ガンダム.
+	POED = 16, # PO'ed (ポエド).
 		
 	### その他.
-	MILESTONE = 25, # マイルストーン.
-	ONE_YEN = 26, # 1円札.
-	TRIANGLE = 27, # トライアングル・サービス.
-	OMEGA = 28, # おめがの勲章.
+	MILESTONE = 17, # マイルストーン.
+	ONE_YEN = 18, # 1円札.
+	TRIANGLE = 19, # トライアングル・サービス.
+	OMEGA = 20, # おめがの勲章.
+	
+	### アイテム2.
+	LIFE = 21, # ライフ最大値上昇.
+	POWER_UP = 22, # 未使用.
+	KEY = 23, # 未使用.
 }
 
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
 var _tilemap:TileMap = null
+var _width:int = 0
+var _height:int = 0
 
 # --------------------------------------------------
-# public function.
+# public functions.
 # --------------------------------------------------
 ## タイルマップを設定.
-func setup(tilemap:TileMap) -> void:
+func setup(tilemap:TileMap, w:int, h:int) -> void:
 	_tilemap = tilemap
+	_width = w
+	_height = h
 
 ## タイルサイズを取得する.
 func get_tile_size() -> int:
@@ -131,12 +139,23 @@ func get_mouse_pos(snapped:bool=false) -> Vector2:
 	var pos = get_grid_mouse_pos()
 	# ワールドに戻すことでスナップされる.
 	return grid_to_world(pos, true)
+	
+## 指定の位置にあるタイル消す.
+func erase_cell(pos:Vector2i, tile_layer:eTileLayer) -> void:
+	_tilemap.erase_cell(tile_layer, pos)
 
 ## 床の種別を取得する.
 func get_floor_type(world:Vector2) -> eType:
 	var ret = get_custom_data_from_world(world, "type")
 	if ret == null:
 		return eType.NONE
+	return ret
+	
+## アイテムの種類を取得する.
+func get_item(pos:Vector2i) -> eItem:
+	var ret = get_custom_data(pos, "item")
+	if ret == null:
+		return eItem.NONE
 	return ret
 	
 ## カスタムデータを取得する (ワールド座標指定).
@@ -154,3 +173,19 @@ func get_custom_data(pos:Vector2i, key:String) -> Variant:
 	
 	# 存在しない.
 	return null
+
+# --------------------------------------------------
+# private functions.
+# --------------------------------------------------
+
+# --------------------------------------------------
+# properties.
+# --------------------------------------------------
+## 幅 (read only)
+var width:int = 0:
+	get:
+		return _width
+## 高さ (read only)
+var height:int = 0:
+	get:
+		return _height
