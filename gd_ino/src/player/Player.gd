@@ -68,6 +68,8 @@ var _jump_scale_timer = 0.0
 ## ジャンプ回数.
 var _jump_cnt = 0
 var _jump_cnt_max = 1
+## 獲得したアイテム.
+var _itemID:Map.eItem = Map.eItem.NONE
 
 # ---------------------------------
 # public functions.
@@ -79,6 +81,13 @@ func start() -> void:
 ## 死亡したかどうか.
 func is_dead() -> bool:
 	return _state == eState.DEAD
+	
+## アイテム獲得.
+func gain_item(itemID:Map.eItem) -> void:
+	_itemID = itemID
+## アイテムをリセット.
+func reset_item() -> void:
+	_itemID = Map.eItem.NONE
 
 ## 更新.
 func update(delta: float) -> void:
@@ -395,3 +404,8 @@ var max_hp:int = 0:
 		return max_hp
 	set(v):
 		max_hp = v
+
+## 獲得したアイテム.
+var itemID:Map.eItem:
+	get:
+		return _itemID
