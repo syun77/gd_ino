@@ -85,6 +85,12 @@ func is_dead() -> bool:
 ## アイテム獲得.
 func gain_item(itemID:Map.eItem) -> void:
 	_itemID = itemID
+	match _itemID:
+		Map.eItem.JUMP_UP:
+			_jump_cnt_max += 1 # ジャンプ最大数アップ.
+		Map.eItem.LIFE:
+			max_hp += 1 # 最大HP増加.
+			hp = max_hp # 最大まで回復.
 ## アイテムをリセット.
 func reset_item() -> void:
 	_itemID = Map.eItem.NONE
@@ -138,6 +144,7 @@ func _update_main(delta:float) -> void:
 		# 着地した瞬間.
 		_jump_scale = eJumpScale.LANDING
 		_jump_scale_timer = JUMP_SCALE_TIME
+		_jump_cnt = 0 # ジャンプ回数をリセット.
 
 	_is_landing = is_on_floor()
 	
@@ -226,6 +233,7 @@ func _update_moving() -> void:
 		# 接地していたらジャンプ.
 		velocity.y = _config.jump_velocity * -1
 		Common.play_se("jump")
+		_jump_cnt += 1 # ジャンプ回数を増やす.
 		_jump_scale = eJumpScale.JUMPING
 		_jump_scale_timer = JUMP_SCALE_TIME
 	
@@ -237,10 +245,18 @@ func _checkJump() -> bool:
 	if Input.is_action_just_pressed("action") == false:
 		# ジャンプボタンを押していない.
 		return false
-	if is_on_floor() == false:
-		# 接地していない.
+	if _jump_cnt >= _jump_cnt_max:
+		# ジャンプ最大回数を超えた.
 		return false
 	
+	if _jump_cnt == 0:
+		if is_on_floor() == false:
+			if _jump_cnt_max >= 2:
+				_jump_cnt += 1 # 接地していないペナルティ.
+				return true # 2段ジャンプ以上あればできる
+			# 最初のジャンプは接地していないとできない.
+			return false
+		
 	# ジャンプする.
 	return true
 	
@@ -354,12 +370,6 @@ func _update_floor_type(delta:float, v:Map.eType) -> bool:
 
 # ジャンプ・着地によるスケールアニメーションの更新
 func _update_jump_scale_anim(delta:float) -> void:
-	if _jump_cnt >= _jump_cnt_max:
-		# 2段ジャンプ時はスケールしない.
-		_jump_scale_timer = 0
-		_jump_scale = eJumpScale.NONE
-		return
-	
 	_jump_scale_timer -= delta
 	if _jump_scale_timer <= 0:
 		# 演出終了
