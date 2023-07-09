@@ -36,3 +36,7 @@ var itemID = Map.eItem.NONE:
 		itemID = v
 		_type = Map.get_item_type(v)
 		_color = Map.item_to_color(v)
+
+var gained:bool:
+	get:
+		return _gained

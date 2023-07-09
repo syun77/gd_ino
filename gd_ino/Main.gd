@@ -57,6 +57,8 @@ var _timer = 0.0
 var _gain_item = Map.eItem.NONE
 ## アイテムウィンドウ.
 var _item_ui:UIItem = null
+## おめがの勲章の解放フラグ.
+var _is_unlock_secret = false
 
 # ---------------------------------
 # private functions.
@@ -123,6 +125,9 @@ func _update_ready(delta:float) -> void:
 		_state = eState.MAIN
 ## 更新 > メイン.
 func _update_main(delta:float) -> void:
+	# おめがの勲章チェック.
+	_check_omega()
+	
 	match _main_step:
 		eMainStep.MAIN:
 			# メイン.
@@ -177,3 +182,17 @@ func _update_camera(is_warp:bool) -> void:
 func _update_ui() -> void:
 	# Heath UIを更新.
 	_ui_health.set_hp(_player.hp, _player.max_hp)
+
+## おめがの勲章チェック.
+func _check_omega() -> void:
+	if _is_unlock_secret:
+		return # 解放済みなら何もしない.
+		
+	if _ui_item_list.count_gain() >= 15:
+		# アイテムを15種類集めると出現する.
+		for v in _item_layer.get_children():
+			if v.get_id() == Map.eItem.OMEGA:
+				# おめがの勲章を表示する.
+				v.display()
+				_is_unlock_secret = true
+				break
