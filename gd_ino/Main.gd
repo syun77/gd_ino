@@ -131,6 +131,7 @@ func _update_main(delta:float) -> void:
 			_gain_item = _player.itemID
 			if _player.is_dead():
 				# プレイヤー死亡処理.
+				_bgm.stop()
 				_timer = 0
 				_state = eState.GAMEOVER
 				_ui_caption.start(UICaption.eType.GAMEOVER)
