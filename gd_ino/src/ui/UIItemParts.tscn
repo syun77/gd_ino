@@ -11,6 +11,7 @@ offset_bottom = 40.0
 script = ExtResource("1_au486")
 
 [node name="Bg" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 16.0

@@ -34,8 +34,8 @@ func setup(itemID:Map.eItem) -> void:
 	
 	_frame.color = Map.item_to_color(itemID)
 	
-	if Item.is_rare(itemID):
-		# レアアイテム.
+	if Item.is_special(itemID):
+		# 特殊アイテム.
 		Common.play_se("itemget", 2)
 	else:
 		Common.play_se("itemget2", 2)
