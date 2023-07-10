@@ -21,6 +21,25 @@ const SPR_FRAME_OFS = 64 # 64から開始.
 var _id = Map.eItem.NONE
 ## 有効フラグ.
 var _enabled = true
+# -------------------------------------------
+# static functions.
+# -------------------------------------------
+## 指定のアイテムがレアアイテムかどうか.
+static func is_rare(id:Map.eItem) -> bool:
+	var tbl = [
+		Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU, Map.eItem.OMEGA
+	]
+	if id in tbl:
+		return true
+	return false
+## 指定のアイテムが特殊アイテムかどうか.
+static func is_special(id:Map.eItem) -> bool:
+	var tbl = [
+		Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU, Map.eItem.JUMP_UP
+	]
+	if id in tbl:
+		return true
+	return false
 
 # -------------------------------------------
 # public functions.
@@ -44,23 +63,6 @@ func display() -> void:
 ## ID取得.
 func get_id() -> Map.eItem:
 	return _id
-	
-## 指定のアイテムがレアアイテムかどうか.
-static func is_rare(id:Map.eItem) -> bool:
-	var tbl = [
-		Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU, Map.eItem.OMEGA
-	]
-	if id in tbl:
-		return true
-	return false
-## 指定のアイテムが特殊アイテムかどうか.
-static func is_special(id:Map.eItem) -> bool:
-	var tbl = [
-		Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU, Map.eItem.JUMP_UP
-	]
-	if id in tbl:
-		return true
-	return false
 	
 # -------------------------------------------
 # private functions.

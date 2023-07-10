@@ -5,9 +5,10 @@ extends Node2D
 # ---------------------------------
 # const.
 # ---------------------------------
-# タイルマップのサイズを変更したらここを修正する必要がある.
-const MAP_WIDTH = 108
-const MAP_HEIGHT = 52
+# タイルマップのサイズを定義.
+# @note サイズを変更したらここを修正する必要がある.
+const MAP_WIDTH = 108 # 幅.
+const MAP_HEIGHT = 52 # 高さ.
 
 const TIMER_READY = 50.0 / 60.0
 const TIMER_GAMEOVER = 0.5
@@ -65,7 +66,7 @@ var _is_unlock_secret = false
 # ---------------------------------
 ## 開始.
 func _ready() -> void:
-	# 共通.
+	# レイヤーを登録する.
 	var layers = {
 		"item": _item_layer,
 		"particle": _particle_layer,
@@ -84,6 +85,7 @@ func _ready() -> void:
 	
 ## アイテムオブジェクトを生成.
 func _create_items() -> void:
+	# タイルだとアイテムの判定がややこしいのでオブジェクト化する.
 	for j in range(Map.height):
 		for i in range(Map.width):
 			var pos = Vector2i(i, j)
@@ -103,6 +105,8 @@ func _create_items() -> void:
 ## 更新.
 func _physics_process(delta: float) -> void:
 	_timer += delta
+	
+	# stateに応じた更新処理.
 	match _state:
 		eState.READY:
 			_update_ready(delta)
@@ -128,6 +132,7 @@ func _update_main(delta:float) -> void:
 	# おめがの勲章チェック.
 	_check_omega()
 	
+	# サブ状態の更新.
 	match _main_step:
 		eMainStep.MAIN:
 			# メイン.
@@ -159,7 +164,7 @@ func _update_main(delta:float) -> void:
 func _update_gameover(delta:float) -> void:
 	_player.update(delta)
 	if _timer < TIMER_GAMEOVER:
-		return
+		return # 少し待ちます.
 	if Input.is_action_just_pressed("action"):
 		# リトライ.
 		get_tree().change_scene_to_file("res://Main.tscn")
