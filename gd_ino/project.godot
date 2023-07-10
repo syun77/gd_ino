@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="gd_ino"
-run/main_scene="res://Main.tscn"
+config/name="イノベーション2007 (for godot)"
+run/main_scene="res://src/scenes/opening/Opening.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
