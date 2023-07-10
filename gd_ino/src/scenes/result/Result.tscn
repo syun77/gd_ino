@@ -1,3 +1,33 @@
-[gd_scene format=3 uid="uid://c454wufka48s"]
+[gd_scene load_steps=4 format=3 uid="uid://c454wufka48s"]
+
+[ext_resource type="Script" path="res://src/scenes/result/Result.gd" id="1_kh82h"]
+[ext_resource type="Texture2D" uid="uid://flkovlw0lvb" path="res://assets/images/result.png" id="1_s4wc2"]
+[ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="2_re1be"]
 
 [node name="Result" type="Node2D"]
+script = ExtResource("1_kh82h")
+
+[node name="Result" type="Sprite2D" parent="."]
+position = Vector2(640, 320)
+scale = Vector2(4, 4)
+texture = ExtResource("1_s4wc2")
+
+[node name="GainItem" type="Label" parent="."]
+offset_left = 552.0
+offset_top = 408.0
+offset_right = 728.0
+offset_bottom = 458.0
+text = "999"
+label_settings = ExtResource("2_re1be")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClearTime" type="Label" parent="."]
+offset_left = 512.0
+offset_top = 576.0
+offset_right = 768.0
+offset_bottom = 633.0
+text = "59:59.999"
+label_settings = ExtResource("2_re1be")
+horizontal_alignment = 1
+vertical_alignment = 1
