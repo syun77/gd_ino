@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://cmrqd6slk4nto"]
+[gd_scene load_steps=3 format=3 uid="uid://cmrqd6slk4nto"]
+
+[ext_resource type="Script" path="res://src/scenes/opening/Opening.gd" id="1_t7vns"]
+[ext_resource type="Texture2D" uid="uid://b3jwpeo1ch870" path="res://assets/images/opening.png" id="1_tfxpo"]
 
 [node name="Opening" type="Node2D"]
+script = ExtResource("1_t7vns")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(128, 960)
+scale = Vector2(4, 4)
+texture = ExtResource("1_tfxpo")
+centered = false

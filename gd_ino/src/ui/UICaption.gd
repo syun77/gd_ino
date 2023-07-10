@@ -122,7 +122,7 @@ func _draw() -> void:
 	var rect = Rect2()
 	rect.position.x = 0
 	rect.position.y = _spr.position.y - 60
-	rect.size.x = 1280
+	rect.size.x = Common.WINDOW_WIDTH
 	rect.size.y = 60 * 2
 	var color = Color.WHITE
 	color.a = 0.2 * _bg_rate

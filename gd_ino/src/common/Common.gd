@@ -6,6 +6,10 @@ extends Node
 # ----------------------------------------
 # consts
 # ----------------------------------------
+# ウィンドウの幅と高さ.
+const WINDOW_WIDTH = 1280
+const WINDOW_HEIGHT = 960
+
 # 同時再生可能なサウンドの数.
 const MAX_SOUND = 8
 
