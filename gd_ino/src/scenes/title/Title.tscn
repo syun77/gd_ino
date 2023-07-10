@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://dp65bi5xnljp1"]
+[gd_scene load_steps=4 format=3 uid="uid://dp65bi5xnljp1"]
+
+[ext_resource type="Script" path="res://src/scenes/title/Title.gd" id="1_40xuv"]
+[ext_resource type="Texture2D" uid="uid://dulgyqrnrqplq" path="res://assets/images/title.png" id="1_ejdph"]
+[ext_resource type="Texture2D" uid="uid://b7ijy0s8740" path="res://assets/images/title_menu.png" id="2_7ucdg"]
 
 [node name="Title" type="Node2D"]
+script = ExtResource("1_40xuv")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(640, 224)
+scale = Vector2(4, 4)
+texture = ExtResource("1_ejdph")
+
+[node name="Menu" type="Sprite2D" parent="."]
+position = Vector2(640, 672)
+scale = Vector2(4, 4)
+texture = ExtResource("2_7ucdg")
+vframes = 2
+frame = 1
