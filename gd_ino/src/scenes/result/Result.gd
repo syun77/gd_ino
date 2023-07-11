@@ -5,6 +5,8 @@ extends Node2D
 # -----------------------------------------
 # const.
 # -----------------------------------------
+const TILE_TEXTURE = preload("res://assets/tiles/tile.png")
+
 enum eState {
 	INIT,
 	MAIN,
@@ -16,6 +18,7 @@ enum eState {
 # -----------------------------------------
 @onready var _txt_item = $GainItem
 @onready var _txt_time = $ClearTime
+@onready var _item_marker = $ItemMarker
 
 # -----------------------------------------
 # var.
@@ -35,6 +38,25 @@ func _ready() -> void:
 	var minute = int(_clear_time/60)
 	var time = "%2d:%02d.%03d"%[minute, sec, msec]
 	_txt_time.text = time
+	
+	# 獲得アイテムを表示.
+	var size = 64
+	var pos = _item_marker.position
+	pos.x -= ((10+1)/2) * size
+	var p = pos
+	for i in range(Map.ITEM_NUM):
+		var spr = Sprite2D.new()
+		spr.texture = TILE_TEXTURE
+		spr.vframes = 8
+		spr.hframes = 16
+		spr.frame = 99
+		spr.position = p
+		add_child(spr)
+		p.x += size
+		if i % 10 == 9:
+			p.x = pos.x
+			p.y += size
+		
 
 ## 更新.
 func _physics_process(_delta: float) -> void:

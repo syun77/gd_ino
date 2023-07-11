@@ -14,9 +14,9 @@ texture = ExtResource("1_s4wc2")
 
 [node name="GainItem" type="Label" parent="."]
 offset_left = 552.0
-offset_top = 512.0
+offset_top = 584.0
 offset_right = 728.0
-offset_bottom = 569.0
+offset_bottom = 641.0
 text = "999"
 label_settings = ExtResource("2_re1be")
 horizontal_alignment = 1
@@ -24,10 +24,13 @@ vertical_alignment = 1
 
 [node name="ClearTime" type="Label" parent="."]
 offset_left = 512.0
-offset_top = 728.0
+offset_top = 800.0
 offset_right = 768.0
-offset_bottom = 785.0
+offset_bottom = 857.0
 text = "59:59.999"
 label_settings = ExtResource("2_re1be")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ItemMarker" type="Marker2D" parent="."]
+position = Vector2(640, 448)
