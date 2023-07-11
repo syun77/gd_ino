@@ -74,6 +74,7 @@ enum eItem {
 ## 収集アイテム番号.
 const ITEM_BEGIN = eItem.FUJI # 開始.
 const ITEM_END = eItem.OMEGA # 終端.
+const ITEM_NUM = ITEM_END - ITEM_BEGIN + 1 # 収集アイテム総数.
 
 ## アイテム種別.
 enum eItemType {

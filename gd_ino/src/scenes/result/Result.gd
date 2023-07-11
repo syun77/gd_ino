@@ -29,7 +29,7 @@ var _clear_time = (59*60) + (59) + 0.999
 # -----------------------------------------
 ## 開始.
 func _ready() -> void:
-	_txt_item.text = "%d"%_gained_item
+	_txt_item.text = "%d/%d"%[_gained_item, Map.ITEM_NUM]
 	var msec = int(_clear_time*1000) % 1000
 	var sec = int(_clear_time) % 60
 	var minute = int(_clear_time/60)

@@ -25,6 +25,7 @@ enum eCollisionLayer {
 # ----------------------------------------
 var _hiscore = 0
 var _score = 0
+var _gained_item = {} # 獲得アイテム.
 var _layers = []
 var _camera:Camera2D = null
 var _player:Player = null
@@ -64,6 +65,7 @@ func init() -> void:
 ## 各種変数の初期化.
 func init_vars() -> void:
 	_score = 0
+	_gained_item = {}
 	_snds.clear()
 	
 func setup(root, layers, player:Player, camera:Camera2D) -> void:
@@ -78,6 +80,10 @@ func setup(root, layers, player:Player, camera:Camera2D) -> void:
 		#snd.volume_db = -4
 		root.add_child(snd)
 		_snds.append(snd)
+
+## 収集アイテム獲得.
+func gain_item(id:Map.eItem) -> void:
+	_gained_item[id] = true
 
 func play_se(name:String, id:int=0) -> void:
 	if id < 0 or MAX_SOUND <= id:
