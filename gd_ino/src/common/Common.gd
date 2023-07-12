@@ -23,9 +23,8 @@ enum eCollisionLayer {
 # ----------------------------------------
 # var.
 # ----------------------------------------
-var _hiscore = 0
-var _score = 0
 var _gained_item = {} # 獲得アイテム.
+var _past_time = 0.0 # 経過時間.
 var _layers = []
 var _camera:Camera2D = null
 var _player:Player = null
@@ -44,30 +43,18 @@ var _snd_tbl = {
 # ----------------------------------------
 func get_collision_bit(bit:eCollisionLayer) -> int:
 	return int(pow(2, bit-1))
-	
-func get_score() -> int:
-	return _score
-	
-func add_score(v:int) -> void:
-	_score += v
-	
-	if _score > _hiscore:
-		# ハイスコア更新.
-		_hiscore = _score
 
-func get_hiscore() -> int:
-	return _hiscore
-
+## 初期化.
 func init() -> void:
-	_hiscore = 0
-	_score = 0
+	init_vars()
 
 ## 各種変数の初期化.
 func init_vars() -> void:
-	_score = 0
+	_past_time = 0
 	_gained_item = {}
 	_snds.clear()
-	
+
+## セットアップ.
 func setup(root, layers, player:Player, camera:Camera2D) -> void:
 	init_vars()
 	
@@ -81,6 +68,18 @@ func setup(root, layers, player:Player, camera:Camera2D) -> void:
 		root.add_child(snd)
 		_snds.append(snd)
 
+## 経過時間を足し込む.
+func add_past_time(delta:float) -> void:
+	_past_time += delta
+
+## 収集アイテムを所持しているかどうか.
+func has_item(id:Map.eItem) -> bool:
+	return id in _gained_item
+
+## 経過時間の取得.
+func get_past_time() -> float:
+	return _past_time
+	
 ## 収集アイテム獲得.
 func gain_item(id:Map.eItem) -> void:
 	_gained_item[id] = true
