@@ -12,12 +12,14 @@ const MAP_HEIGHT = 52 # 高さ.
 
 const TIMER_READY = 50.0 / 60.0
 const TIMER_GAMEOVER = 0.5
+const TIMER_GAMECLEAR = 1.0
 
 ## 状態.
 enum eState {
 	READY, # げーむ　はじまる！
 	MAIN, # メインゲーム.
 	GAMEOVER, # げーむ　おわた。
+	GAMECLEAR, # ゲームクリア演出.
 }
 ## メインのサブ状態.
 enum eMainStep {
@@ -45,6 +47,7 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 @onready var _item_layer = $ItemLayer
 @onready var _particle_layer = $ParticleLayer
 @onready var _ui_layer = $UILayer
+@onready var _ui_fade = $UILayer/FadeRect
 
 # ---------------------------------
 # var.
@@ -114,6 +117,8 @@ func _physics_process(delta: float) -> void:
 			_update_main(delta)
 		eState.GAMEOVER:
 			_update_gameover(delta)
+		eState.GAMECLEAR:
+			_update_gameclear(delta)
 	# UIの更新.
 	_update_ui()
 	
@@ -155,10 +160,17 @@ func _update_main(delta:float) -> void:
 		eMainStep.ITEM_MSG:
 			if is_instance_valid(_item_ui) == false:
 				# アイテム獲得メッセージ表示終了.
-				_bgm.play()
 				_ui_item_list.gain(_gain_item)
+				Common.gain_item(_gain_item)
 				_player.reset_item()
-				_main_step = eMainStep.MAIN
+				if _ui_item_list.is_completed():
+					# ゲームクリア処理へ.
+					_timer = 0.0
+					_state = eState.GAMECLEAR
+				else:
+					# BGM再開.
+					_bgm.play()
+					_main_step = eMainStep.MAIN
 		
 ## 更新 > ゲームオーバー.
 func _update_gameover(delta:float) -> void:
@@ -168,6 +180,15 @@ func _update_gameover(delta:float) -> void:
 	if Input.is_action_just_pressed("action"):
 		# リトライ.
 		get_tree().change_scene_to_file("res://Main.tscn")
+
+## 更新 > ゲームクリア.
+func _update_gameclear(delta:float) -> void:
+	_timer += delta
+	var rate = _timer / TIMER_GAMECLEAR
+	_ui_fade.visible = true
+	_ui_fade.color.a = rate
+	if _timer >= TIMER_GAMECLEAR:
+		get_tree().change_scene_to_file("res://src/scenes/ending/Ending.tscn")
 
 ## カメラの位置を更新.
 func _update_camera(is_warp:bool) -> void:

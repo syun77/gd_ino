@@ -33,6 +33,11 @@ follow_viewport_enabled = true
 
 [node name="UIItemList" parent="UILayer" instance=ExtResource("6_d1ksn")]
 
+[node name="FadeRect" type="ColorRect" parent="UILayer"]
+visible = false
+offset_right = 1280.0
+offset_bottom = 960.0
+
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fwcs8")
 autoplay = true
