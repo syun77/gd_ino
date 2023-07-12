@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://du8efh526uic6"]
+[gd_scene load_steps=9 format=3 uid="uid://du8efh526uic6"]
 
 [ext_resource type="TileSet" uid="uid://bp36hrub7ev2g" path="res://assets/tiles/tile_set.tres" id="1_7akfr"]
 [ext_resource type="Script" path="res://Main.gd" id="1_q18xd"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b4l2qr5ybm4ju" path="res://src/ui/UIHealth.tscn" id="5_nt1as"]
 [ext_resource type="PackedScene" uid="uid://dfegnd2mn10k1" path="res://src/ui/UICaption.tscn" id="5_w4dc7"]
 [ext_resource type="PackedScene" uid="uid://c2w3a7gpfkbnn" path="res://src/ui/UIItemList.tscn" id="6_d1ksn"]
+[ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="7_blgql"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_q18xd")
@@ -32,6 +33,15 @@ follow_viewport_enabled = true
 [node name="UICaption" parent="UILayer" instance=ExtResource("5_w4dc7")]
 
 [node name="UIItemList" parent="UILayer" instance=ExtResource("6_d1ksn")]
+
+[node name="UITime" type="Label" parent="UILayer"]
+offset_left = 8.0
+offset_top = 904.0
+offset_right = 224.0
+offset_bottom = 961.0
+text = "0:00.000"
+label_settings = ExtResource("7_blgql")
+horizontal_alignment = 2
 
 [node name="FadeRect" type="ColorRect" parent="UILayer"]
 visible = false

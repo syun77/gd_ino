@@ -47,6 +47,7 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 @onready var _item_layer = $ItemLayer
 @onready var _particle_layer = $ParticleLayer
 @onready var _ui_layer = $UILayer
+@onready var _ui_time = $UILayer/UITime
 @onready var _ui_fade = $UILayer/FadeRect
 
 # ---------------------------------
@@ -141,6 +142,8 @@ func _update_main(delta:float) -> void:
 	match _main_step:
 		eMainStep.MAIN:
 			# メイン.
+			## 時間経過.
+			Common.add_past_time(delta)
 			_player.update(delta)
 			_update_camera(false)
 			_gain_item = _player.itemID
@@ -208,6 +211,8 @@ func _update_camera(is_warp:bool) -> void:
 func _update_ui() -> void:
 	# Heath UIを更新.
 	_ui_health.set_hp(_player.hp, _player.max_hp)
+	# 経過時間UIを更新.
+	_ui_time.text = Common.get_past_time_str()
 
 ## おめがの勲章チェック.
 func _check_omega() -> void:

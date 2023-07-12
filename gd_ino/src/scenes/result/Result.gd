@@ -32,11 +32,9 @@ var _clear_time = (59*60) + (59) + 0.999
 # -----------------------------------------
 ## 開始.
 func _ready() -> void:
-	var msec = int(_clear_time*1000) % 1000
-	var sec = int(_clear_time) % 60
-	var minute = int(_clear_time/60)
-	var time = "%2d:%02d.%03d"%[minute, sec, msec]
-	_txt_time.text = time
+	# クリア時間.
+	_clear_time = Common.get_past_time()
+	_txt_time.text = Common.get_past_time_str()
 	
 	# 獲得アイテムを表示.
 	var size = 64
@@ -74,4 +72,5 @@ func _physics_process(_delta: float) -> void:
 			if Input.is_action_just_released("action"):
 				_state = eState.END
 		eState.END:
-			get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
+			if Input.is_action_pressed("action") == false:
+				get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")

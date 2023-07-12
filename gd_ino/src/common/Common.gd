@@ -79,6 +79,15 @@ func has_item(id:Map.eItem) -> bool:
 ## 経過時間の取得.
 func get_past_time() -> float:
 	return _past_time
+
+## 経過時間を文字列として取得する.
+func get_past_time_str() -> String:
+	var t = _past_time
+	var msec = int(t*1000) % 1000
+	var sec = int(t) % 60
+	var minute = int(t/60)
+	var time = "%2d:%02d.%03d"%[minute, sec, msec]
+	return time
 	
 ## 収集アイテム獲得.
 func gain_item(id:Map.eItem) -> void:
