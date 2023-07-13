@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://6nm5fcj1c5am"]
+
+[ext_resource type="Script" path="res://src/common/AchievementData.gd" id="1_dp7n7"]
+
+[node name="AchievementData" type="Node2D"]
+script = ExtResource("1_dp7n7")

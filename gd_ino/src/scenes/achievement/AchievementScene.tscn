@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7vul8qwveq1r"]
+
+[ext_resource type="Script" path="res://src/scenes/achievement/AchievementScene.gd" id="1_wov43"]
+[ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="2_lo3o3"]
+
+[node name="AchievementScene" type="Node2D"]
+script = ExtResource("1_wov43")
+
+[node name="ItemList" type="VBoxContainer" parent="."]
+offset_left = 168.0
+offset_top = 208.0
+offset_right = 408.0
+offset_bottom = 570.0
+
+[node name="Label" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Label2" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Label3" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Label4" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Label5" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Label6" type="Label" parent="ItemList"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Detail" type="Label" parent="."]
+offset_left = 544.0
+offset_top = 816.0
+offset_right = 784.0
+offset_bottom = 873.0
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")

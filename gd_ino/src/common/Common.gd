@@ -23,8 +23,14 @@ enum eCollisionLayer {
 # ----------------------------------------
 # var.
 # ----------------------------------------
+## セーブデータ用.
+var _achievements:Array[int] = []
+
+## ゲームデータ.
 var _gained_item = {} # 獲得アイテム.
 var _past_time = 0.0 # 経過時間.
+
+## 共有オブジェクト.
 var _layers = []
 var _camera:Camera2D = null
 var _player:Player = null
@@ -46,6 +52,8 @@ func get_collision_bit(bit:eCollisionLayer) -> int:
 
 ## 初期化.
 func init() -> void:
+	
+	
 	init_vars()
 
 ## 各種変数の初期化.
