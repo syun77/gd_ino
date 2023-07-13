@@ -34,6 +34,11 @@ var _past_time = 0.0 # 経過時間.
 var _layers = []
 var _camera:Camera2D = null
 var _player:Player = null
+var _bgm:AudioStreamPlayer = null
+var _bgm_tbl = {
+	"ino1": "res://assets/sound/ino1.ogg",
+	"ino2": "res://assets/sound/ino2.ogg",
+}
 var _snds:Array = []
 var _snd_tbl = {
 	"damage": "res://assets/sound/damage.wav",
@@ -52,7 +57,11 @@ func get_collision_bit(bit:eCollisionLayer) -> int:
 
 ## 初期化.
 func init() -> void:
-	
+	## BGM.
+	if _bgm == null:
+		_bgm = AudioStreamPlayer.new()
+		add_child(_bgm)
+		_bgm.bus = "BGM"
 	
 	init_vars()
 
@@ -63,17 +72,18 @@ func init_vars() -> void:
 	_snds.clear()
 
 ## セットアップ.
-func setup(root, layers, player:Player, camera:Camera2D) -> void:
+func setup(layers, player:Player, camera:Camera2D) -> void:
 	init_vars()
 	
 	_layers = layers
 	_player = player
 	_camera = camera
 	# AudioStreamPlayerをあらかじめ作っておく.
+	## SE.
 	for i in range(MAX_SOUND):
 		var snd = AudioStreamPlayer.new()
 		#snd.volume_db = -4
-		root.add_child(snd)
+		add_child(snd)
 		_snds.append(snd)
 
 ## 経過時間を足し込む.
@@ -101,6 +111,19 @@ func get_past_time_str() -> String:
 func gain_item(id:Map.eItem) -> void:
 	_gained_item[id] = true
 
+## BGMの再生.
+func play_bgm(name:String) -> void:
+	if not name in _bgm_tbl:
+		push_error("存在しないサウンド %s"%name)
+		return
+	_bgm.stream = load(_bgm_tbl[name])
+	_bgm.play()
+
+## BGMの停止.
+func stop_bgm() -> void:
+	_bgm.stop()
+
+## SEの再生.
 func play_se(name:String, id:int=0) -> void:
 	if id < 0 or MAX_SOUND <= id:
 		push_error("不正なサウンドID %d"%id)

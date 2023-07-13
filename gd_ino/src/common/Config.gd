@@ -11,15 +11,15 @@ const FPS = 60
 ## 初期HP.
 @export var hp_init = 3
 ## 移動速度.
-@export var move_speed = 400.0#2.0
+@export var move_speed = 480.0#2.0
 ## 地面での加速係数.
 @export var ground_acc_ratio = 0.04
 ## 空中での加速係数.
 @export var air_acc_ratio = 0.01
 ## ジャンプ力.
-@export var jump_velocity = 800.0#4.0
+@export var jump_velocity = 960.0#4.0
 ## 重力加速度.
-@export var gravity = 35.0#0.2
+@export var gravity = 48.0#0.2
 ## 落下の最高速度.
 @export var fall_speed_max = 400.0#4.0
 ## ライフの回復インターバル.

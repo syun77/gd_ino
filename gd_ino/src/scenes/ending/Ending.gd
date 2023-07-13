@@ -5,6 +5,9 @@ const SCROLL_SPEED = 100.0
 
 @onready var _spr = $Sprite2D
 
+func _ready() -> void:
+	Common.play_bgm("ino2")
+
 ## 更新.
 func _process(delta: float) -> void:
 	
@@ -19,4 +22,5 @@ func _process(delta: float) -> void:
 	
 	if _spr.position.y < end_y:
 		# オープニング終了.
+		Common.stop_bgm()
 		get_tree().change_scene_to_file("res://src/scenes/result/Result.tscn")

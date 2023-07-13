@@ -39,7 +39,6 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 @onready var _player = $Player
 @onready var _camera = $Camera2D
 @onready var _map = $TileMap
-@onready var _bgm = $BGM
 @onready var _ui_health = $UILayer/UIHeath
 @onready var _ui_caption = $UILayer/UICaption
 @onready var _ui_item_list = $UILayer/UIItemList
@@ -75,7 +74,7 @@ func _ready() -> void:
 		"item": _item_layer,
 		"particle": _particle_layer,
 	}
-	Common.setup(self, layers, _player, _camera)
+	Common.setup(layers, _player, _camera)
 	# タイルマップを設定.
 	Map.setup(_map, MAP_WIDTH, MAP_HEIGHT)
 	# カメラをワープ.
@@ -86,6 +85,9 @@ func _ready() -> void:
 	
 	# 開始キャプションを表示.
 	_ui_caption.start(UICaption.eType.START)
+	
+	# BGM再生開始.
+	Common.play_bgm("ino1")
 	
 ## アイテムオブジェクトを生成.
 func _create_items() -> void:
@@ -149,13 +151,13 @@ func _update_main(delta:float) -> void:
 			_gain_item = _player.itemID
 			if _player.is_dead():
 				# プレイヤー死亡処理.
-				_bgm.stop()
+				Common.stop_bgm()
 				_timer = 0
 				_state = eState.GAMEOVER
 				_ui_caption.start(UICaption.eType.GAMEOVER)
 			elif _gain_item != Map.eItem.NONE:
 				# アイテム獲得メッセージを表示.
-				_bgm.stop()
+				Common.stop_bgm()
 				_main_step = eMainStep.ITEM_MSG
 				_item_ui = UI_ITEM_OBJ.instantiate()
 				_ui_layer.add_child(_item_ui)
@@ -172,7 +174,7 @@ func _update_main(delta:float) -> void:
 					_state = eState.GAMECLEAR
 				else:
 					# BGM再開.
-					_bgm.play()
+					Common.play_bgm("ino1")
 					_main_step = eMainStep.MAIN
 		
 ## 更新 > ゲームオーバー.
@@ -182,7 +184,8 @@ func _update_gameover(delta:float) -> void:
 		return # 少し待ちます.
 	if Input.is_action_just_pressed("action"):
 		# リトライ.
-		get_tree().change_scene_to_file("res://Main.tscn")
+		#get_tree().change_scene_to_file("res://Main.tscn")
+		get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
 
 ## 更新 > ゲームクリア.
 func _update_gameclear(delta:float) -> void:
