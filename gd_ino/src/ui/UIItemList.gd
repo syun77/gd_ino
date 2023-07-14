@@ -32,8 +32,7 @@ func count_gain() -> int:
 ## ゲームクリアチェック.
 func is_completed() -> bool:
 	var cnt = 0
-	var tbl = [Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU]
-	for id in tbl:
+	for id in Map.ITEM_LEGENDS:
 		var v = _item_list[id] as UIItemParts
 		if v.gained:
 			cnt += 1

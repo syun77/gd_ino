@@ -39,7 +39,46 @@ const DETAIL = [
 # ----------------------------------------------
 # public functions.
 # ----------------------------------------------
-static func get_title(id:Achievement.eType) -> String:
+## すべての実績開放チェック.
+static func check_all() -> void:
+	for id in range(Achievement.eType.size()):
+		if check(id):
+			# 実績開放.
+			print(get_title(id))
+			
+				
+## 実績開放チェック.
+static func check(id:eType) -> bool:
+	match id:
+		eType.NORMAL_COMPLETED:
+			return check_normal_completed()
+		eType.MIN_COMPLETED:
+			return Common.count_item() == 3
+		eType.FAKE_COMPLETED:
+			return Common.count_item() == 18
+		eType.ALL_COMPLETED:
+			return Common.count_item() == 19
+		eType.SPEEDRUN_40SEC:
+			return Common.get_past_time_sec() <= 40
+		eType.SPEEDRUN_60SEC:
+			return Common.get_past_time_sec() <= 60
+
+	assert(0, "未定義の実績:%d"%id)	
+	return false
+	
+## 通常クリアチェック.
+static func check_normal_completed() -> bool:
+	for id in Map.ITEM_LEGENDS:
+		if Common.gained_item(id) == false:
+			return false
+	return true
+	
+static func unlock(id:eType) -> void:
+	Common.unlock_achievement(id)
+static func unlocked(id:eType) -> bool:
+	return Common.unlocked_achievement(id)
+	
+static func get_title(id:eType) -> String:
 	return TITLE[id]
-static func get_detail(id:Achievement.eType) -> String:
+static func get_detail(id:eType) -> String:
 	return DETAIL[id]

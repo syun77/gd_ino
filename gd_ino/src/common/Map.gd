@@ -77,6 +77,9 @@ const ITEM_END = eItem.OMEGA # 終端.
 const ITEM_NUM = ITEM_END - ITEM_BEGIN + 1 # 収集アイテム総数.
 const ITEM_UNKNOWN = 99 # 不明なアイテムアイコン.
 
+## 3種の神器.
+const ITEM_LEGENDS = [Map.eItem.FUJI, Map.eItem.TAKA, Map.eItem.NASU]
+
 ## アイテム種別.
 enum eItemType {
 	FUJI, # 富士系.

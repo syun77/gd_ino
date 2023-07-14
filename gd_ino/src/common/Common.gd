@@ -23,8 +23,11 @@ enum eCollisionLayer {
 # ----------------------------------------
 # var.
 # ----------------------------------------
+## 初期化済みかどうか.
+var _initialized = false
+
 ## セーブデータ用.
-var _achievements:Array[int] = []
+var _achievements:Array[bool] = []
 
 ## ゲームデータ.
 var _gained_item = {} # 獲得アイテム.
@@ -35,11 +38,13 @@ var _layers = []
 var _camera:Camera2D = null
 var _player:Player = null
 var _bgm:AudioStreamPlayer = null
+### BGMテーブル.
 var _bgm_tbl = {
 	"ino1": "res://assets/sound/ino1.ogg",
 	"ino2": "res://assets/sound/ino2.ogg",
 }
 var _snds:Array = []
+### SEテーブル.
 var _snd_tbl = {
 	"damage": "res://assets/sound/damage.wav",
 	"heal": "res://assets/sound/heal.wav",
@@ -57,11 +62,19 @@ func get_collision_bit(bit:eCollisionLayer) -> int:
 
 ## 初期化.
 func init() -> void:
-	## BGM.
-	if _bgm == null:
-		_bgm = AudioStreamPlayer.new()
-		add_child(_bgm)
-		_bgm.bus = "BGM"
+	if _initialized == false:
+		# 実績.
+		for i in range(Achievement.eType.size()):
+			_achievements.append(false)
+		
+		# BGM.
+		if _bgm == null:
+			_bgm = AudioStreamPlayer.new()
+			add_child(_bgm)
+			_bgm.bus = "BGM"
+		
+		# 初期化した.
+		_initialized = true
 	
 	init_vars()
 
@@ -94,9 +107,19 @@ func add_past_time(delta:float) -> void:
 func has_item(id:Map.eItem) -> bool:
 	return id in _gained_item
 
+## 収集アイテムの所持数を取得する.
+func count_item() -> int:
+	return _gained_item.size()
+
 ## 経過時間の取得.
 func get_past_time() -> float:
 	return _past_time
+
+## 経過時間を秒で取得する.
+func get_past_time_sec() -> int:
+	var t = _past_time
+	var sec = int(t) % 60
+	return sec
 
 ## 経過時間を文字列として取得する.
 func get_past_time_str() -> String:
@@ -110,6 +133,8 @@ func get_past_time_str() -> String:
 ## 収集アイテム獲得.
 func gain_item(id:Map.eItem) -> void:
 	_gained_item[id] = true
+	
+## 収集アイテム
 
 ## BGMの再生.
 func play_bgm(name:String) -> void:
@@ -136,6 +161,13 @@ func play_se(name:String, id:int=0) -> void:
 	var snd = _snds[id]
 	snd.stream = load(_snd_tbl[name])
 	snd.play()
+	
+## 実績の開放.
+func unlock_achievement(id:int) -> void:
+	_achievements[id] = true
+## 実績を開放済みかどうか.
+func unlocked_achievement(id:int) -> bool:
+	return _achievements[id]
 
 # ----------------------------------------
 # private functions.
