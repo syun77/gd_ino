@@ -1,10 +1,14 @@
 extends Node2D
 
+## 項目リスト.
 @onready var _list = $ItemList
-@onready var _detail = $Detail
 
+## 開始.
 func _ready() -> void:
 	for id in Achievement.eType.values():
 		var label = _list.get_child(id)
-		label.text = AchievementData.get_title(id)
-	_detail.text = AchievementData.get_detail(Achievement.eType.ALL_COMPLETED)
+		label.text = Achievement.get_title(id)
+
+## 戻るボタンを押した.
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
