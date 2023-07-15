@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dp65bi5xnljp1"]
 
 [ext_resource type="Script" path="res://src/scenes/title/Title.gd" id="1_40xuv"]
-[ext_resource type="Texture2D" uid="uid://dulgyqrnrqplq" path="res://assets/images/title.png" id="1_ejdph"]
-[ext_resource type="Texture2D" uid="uid://b7ijy0s8740" path="res://assets/images/title_menu.png" id="2_7ucdg"]
+[ext_resource type="Texture2D" uid="uid://dcxokltiaqfty" path="res://assets/images/title.png" id="1_ejdph"]
+[ext_resource type="Texture2D" uid="uid://cufygmk5hohsb" path="res://assets/images/title_menu.png" id="2_7ucdg"]
 [ext_resource type="Theme" uid="uid://cjqdw4nibxjst" path="res://assets/fonts/ui_48.tres" id="4_d4htc"]
 
 [node name="Title" type="Node2D"]
@@ -28,4 +28,13 @@ offset_bottom = 901.0
 theme = ExtResource("4_d4htc")
 text = "Achivement"
 
+[node name="ButtonOption" type="Button" parent="."]
+offset_left = 960.0
+offset_top = 744.0
+offset_right = 1208.0
+offset_bottom = 805.0
+theme = ExtResource("4_d4htc")
+text = "Option"
+
 [connection signal="pressed" from="ButtonAchievement" to="." method="_on_button_achievement_pressed"]
+[connection signal="pressed" from="ButtonOption" to="." method="_on_button_option_pressed"]

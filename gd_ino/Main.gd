@@ -69,6 +69,9 @@ var _is_unlock_secret = false
 # ---------------------------------
 ## 開始.
 func _ready() -> void:
+	# 開始用の初期化.
+	Common.init()
+	
 	# レイヤーを登録する.
 	var layers = {
 		"item": _item_layer,
@@ -125,9 +128,10 @@ func _physics_process(delta: float) -> void:
 	# UIの更新.
 	_update_ui()
 	
-	# クイックリスタート.
-	if Input.is_action_just_pressed("reset"):
-		get_tree().change_scene_to_file("res://Main.tscn")
+	if Common.quick_retry:
+		# クイックリスタート.
+		if Input.is_action_just_pressed("reset"):
+			get_tree().change_scene_to_file("res://Main.tscn")
 
 ## 更新 > ゲーム開始.
 func _update_ready(delta:float) -> void:

@@ -27,6 +27,22 @@ enum eCollisionLayer {
 var _initialized = false
 
 ## セーブデータ用.
+var bgm_volume:float = 1.0:
+	get:
+		return bgm_volume
+	set(v):
+		var db = 64.0 * (v - 1)
+		AudioServer.set_bus_volume_db(1, db)
+		bgm_volume = v
+var se_volume:float = 1.0:
+	get:
+		return se_volume
+	set(v):
+		var db = 64.0 * (v - 1)
+		AudioServer.set_bus_volume_db(2, db)
+		se_volume = v
+var skip_op_ed = false
+var quick_retry = true
 var _achievements:Array[bool] = []
 
 ## ゲームデータ.
@@ -67,11 +83,19 @@ func init() -> void:
 		for i in range(Achievement.eType.size()):
 			_achievements.append(false)
 		
-		# BGM.
+		# AudioStreamPlayerをあらかじめ作っておく.
+		## BGM.
 		if _bgm == null:
 			_bgm = AudioStreamPlayer.new()
 			add_child(_bgm)
 			_bgm.bus = "BGM"
+		## SE.
+		for i in range(MAX_SOUND):
+			var snd = AudioStreamPlayer.new()
+			#snd.volume_db = -4
+			snd.bus = "SE"
+			add_child(snd)
+			_snds.append(snd)
 		
 		# 初期化した.
 		_initialized = true
@@ -82,7 +106,6 @@ func init() -> void:
 func init_vars() -> void:
 	_past_time = 0
 	_gained_item = {}
-	_snds.clear()
 
 ## セットアップ.
 func setup(layers, player:Player, camera:Camera2D) -> void:
@@ -91,14 +114,6 @@ func setup(layers, player:Player, camera:Camera2D) -> void:
 	_layers = layers
 	_player = player
 	_camera = camera
-	# AudioStreamPlayerをあらかじめ作っておく.
-	## SE.
-	for i in range(MAX_SOUND):
-		var snd = AudioStreamPlayer.new()
-		#snd.volume_db = -4
-		snd.bus = "SE"
-		add_child(snd)
-		_snds.append(snd)
 
 ## 経過時間を足し込む.
 func add_past_time(delta:float) -> void:
@@ -162,6 +177,21 @@ func play_se(name:String, id:int=0) -> void:
 	var snd = _snds[id]
 	snd.stream = load(_snd_tbl[name])
 	snd.play()
+
+## SE再生中かどうか.
+func playing_se(name:String) -> bool:
+	if not name in _snd_tbl:
+		push_error("存在しないサウンド %s"%name)
+		return false
+		
+	for snd in _snds:
+		var s = snd as AudioStreamPlayer
+		if s.playing:
+			if s.stream.resource_path == _snd_tbl[name]:
+				return true
+	
+	# 再生中でない.
+	return false
 	
 ## 実績の開放.
 func unlock_achievement(id:int) -> void:

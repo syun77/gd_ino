@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 	# release()判定で次の画面で早送りしないようにする.
 	if Input.is_action_just_released("action"):
 		# ゲーム開始.
-		get_tree().change_scene_to_file("res://Main.tscn")
+		get_tree().change_scene_to_file("res://src/scenes/opening/Opening.tscn")
 		return
 	
 	_menu.offset = Vector2.ZERO
@@ -36,3 +36,7 @@ func _start_shake() -> void:
 ## 実績.
 func _on_button_achievement_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/scenes/achievement/AchievementScene.tscn")
+
+## オプション画面.
+func _on_button_option_pressed() -> void:
+	get_tree().change_scene_to_file("res://src/scenes/option/OptionScene.tscn")
