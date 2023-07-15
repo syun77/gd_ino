@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cql6k2uc7jt41"]
+
+[ext_resource type="Script" path="res://src/ui/UIOverlay.gd" id="1_blat1"]
+
+[node name="UIOverlay" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_blat1")

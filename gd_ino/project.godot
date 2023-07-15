@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Common="*res://src/common/Common.gd"
 Map="*res://src/common/Map.gd"
 Ease="*res://src/common/Ease.gd"
+UiOverlay="*res://src/ui/UIOverlay.tscn"
 
 [display]
 
