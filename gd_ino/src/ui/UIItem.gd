@@ -27,24 +27,28 @@ var _timer = 0.0
 # ----------------------------------------
 # public functions.
 # ----------------------------------------
-func setup(itemID:Map.eItem) -> void:
+func setup(itemID:Map.eItem, se:AudioStreamPlayer) -> void:
 	_itemID = itemID
-	_item.frame = Item.SPR_FRAME_OFS + _itemID - 1
-	_window.frame = _itemID - 1
-	
-	_frame.color = Map.item_to_color(itemID)
 	
 	if Item.is_special(itemID):
 		# 特殊アイテム.
-		Common.play_se("itemget", 2)
+		se.stream = load(Common.get_se_path("itemget"))
 	else:
-		Common.play_se("itemget2", 2)
-	
-	_root.position.y = -1024
+		se.stream = load(Common.get_se_path("itemget2"))
+	se.play()
 
 # ----------------------------------------
 # private functions.
 # ----------------------------------------
+## 開始.
+func _ready() -> void:
+	_item.frame = Item.SPR_FRAME_OFS + _itemID - 1
+	_window.frame = _itemID - 1
+	
+	_frame.color = Map.item_to_color(_itemID)
+	_root.position.y = -1024
+
+## 更新.	
 func _physics_process(delta: float) -> void:
 	_timer += delta
 	

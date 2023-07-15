@@ -61,3 +61,6 @@ offset_bottom = 960.0
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1024, 640)
 position_smoothing_speed = 3.0
+
+[node name="SE2" type="AudioStreamPlayer" parent="."]
+bus = &"SE2"

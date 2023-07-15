@@ -51,6 +51,8 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 @onready var _ui_time = $UILayer/UITime
 @onready var _ui_fade = $UILayer/FadeRect
 
+@onready var _se2 = $SE2 # ダッキング用SE
+
 # ---------------------------------
 # var.
 # ---------------------------------
@@ -176,12 +178,17 @@ func _update_main(delta:float) -> void:
 				_state = eState.GAMEOVER
 				_ui_caption.start(UICaption.eType.GAMEOVER)
 			elif _gain_item != Map.eItem.NONE:
-				# アイテム獲得メッセージを表示.
-				Common.stop_bgm()
-				_main_step = eMainStep.ITEM_MSG
+				# アイテム獲得ウィンドウ生成.
 				_item_ui = UI_ITEM_OBJ.instantiate()
+				_item_ui.setup(_gain_item, _se2)
 				_ui_layer.add_child(_item_ui)
-				_item_ui.setup(_gain_item)
+				if Common.is_display_item_window:
+					# アイテム獲得メッセージを表示.
+					Common.stop_bgm()
+				else:
+					# 表示せずに消す.
+					_item_ui.queue_free()
+				_main_step = eMainStep.ITEM_MSG
 		eMainStep.ITEM_MSG:
 			if is_instance_valid(_item_ui) == false:
 				# アイテム獲得メッセージ表示終了.
@@ -194,7 +201,8 @@ func _update_main(delta:float) -> void:
 					_state = eState.GAMECLEAR
 				else:
 					# BGM再開.
-					Common.play_bgm("ino1")
+					if Common.is_display_item_window:
+						Common.play_bgm("ino1")
 					_main_step = eMainStep.MAIN
 		
 ## 更新 > ゲームオーバー.

@@ -23,6 +23,14 @@ enum eCollisionLayer {
 	ONEWAY = 3, # 一方通行床.
 }
 
+## Audio Bus
+enum eAudioBus {
+	MASTER = 0,
+	BGM = 1,
+	SE = 2,
+	SE2 = 3,
+}
+
 # ----------------------------------------
 # var.
 # ----------------------------------------
@@ -35,24 +43,26 @@ var bgm_volume:float = 1.0:
 		return bgm_volume
 	set(v):
 		var db = 64.0 * (v - 1)
-		AudioServer.set_bus_volume_db(1, db)
+		AudioServer.set_bus_volume_db(eAudioBus.BGM, db)
 		bgm_volume = v
 var se_volume:float = 1.0:
 	get:
 		return se_volume
 	set(v):
 		var db = 64.0 * (v - 1)
-		AudioServer.set_bus_volume_db(2, db)
+		AudioServer.set_bus_volume_db(eAudioBus.SE, db)
+		AudioServer.set_bus_volume_db(eAudioBus.SE2, db)
 		se_volume = v
 var skip_op_ed = false
 var quick_retry = true
 var _achievements:Array[bool] = []
+var is_lunker = false # ランカーモードかどうか.
+var is_lunker_support = false # ランカーモの補助線を有効にするかどうか.
+var is_display_item_window = true # アイテムウィンドウを表示するかどうか.
 
 ## ゲームデータ.
 var _gained_item = {} # 獲得アイテム.
 var _past_time = 0.0 # 経過時間.
-var is_lunker = false # ランカーモードかどうか.
-var is_lunker_support = false # ランカーモの補助線を有効にするかどうか.
 
 ## 共有オブジェクト.
 var _layers = []
@@ -92,6 +102,7 @@ func to_save() -> void:
 		"achievements": _achievements,
 		"is_lunker": is_lunker,
 		"is_lunker_support": is_lunker_support,
+		"is_display_item_window": is_display_item_window,
 	}
 	var s = var_to_str(data)
 	f.store_string(s)
@@ -112,6 +123,7 @@ func from_load() -> void:
 		_achievements = data["achievements"]
 		is_lunker = data["is_lunker"]
 		is_lunker_support = data["is_lunker_support"]
+		is_display_item_window = data["is_display_item_window"]
 
 ## 初期化.
 func init() -> void:
@@ -200,6 +212,10 @@ func play_bgm(name:String) -> void:
 ## BGMの停止.
 func stop_bgm() -> void:
 	_bgm.stop()
+
+## SEのパスの取得.
+func get_se_path(name:String) -> String:
+	return _snd_tbl[name]
 
 ## SEの再生.
 func play_se(name:String, id:int=0) -> void:

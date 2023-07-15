@@ -66,14 +66,25 @@ theme_override_font_sizes/font_size = 32
 button_pressed = true
 text = "Rキーでクイックリトライ"
 
-[node name="CheckLunkerSupport" type="CheckButton" parent="."]
+[node name="CheckItemWindow" type="CheckButton" parent="."]
 offset_left = 104.0
-offset_top = 400.0
+offset_top = 392.0
 offset_right = 768.0
-offset_bottom = 456.0
+offset_bottom = 448.0
 theme = ExtResource("3_6bq6d")
 theme_override_font_sizes/font_size = 32
-text = "ランカーモード補助線 (ONにすると実績が無効となります)"
+button_pressed = true
+text = "アイテムウィンドウを表示する"
+
+[node name="CheckLunkerSupport" type="CheckButton" parent="."]
+offset_left = 104.0
+offset_top = 464.0
+offset_right = 760.0
+offset_bottom = 544.0
+theme = ExtResource("3_6bq6d")
+theme_override_font_sizes/font_size = 32
+text = "ランカーモード補助線
+ (ONにすると実績が開放できません)"
 
 [node name="ButtonBack" type="Button" parent="."]
 offset_left = 480.0
@@ -87,5 +98,6 @@ text = "Back to Title"
 [connection signal="value_changed" from="SE/HSlider" to="." method="_on_h_slider2_value_changed"]
 [connection signal="toggled" from="CheckOpeningEnding" to="." method="_on_check_opening_ending_toggled"]
 [connection signal="toggled" from="CheckRetry" to="." method="_on_check_retry_toggled"]
+[connection signal="toggled" from="CheckItemWindow" to="." method="_on_check_item_window_toggled"]
 [connection signal="toggled" from="CheckLunkerSupport" to="." method="_on_check_lunker_support_toggled"]
 [connection signal="pressed" from="ButtonBack" to="." method="_on_button_back_pressed"]
