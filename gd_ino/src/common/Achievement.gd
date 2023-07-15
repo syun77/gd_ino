@@ -29,9 +29,9 @@ const TITLE = [
 ## 詳細.
 const DETAIL = [
 	"3種の神器を集める",
-	"収集アイテムx3でクリアする",
-	"収集アイテムx18でクリアする",
-	"すべての収集アイテムを集める",
+	"収集アイテムを 3個 集めてクリアする",
+	"収集アイテムを 18個 集めてクリアする",
+	"すべての収集アイテムを集めてクリアする\n(達成すると隠しモードが開放されます)",
 	"40秒以内でクリアする",
 	"60秒以内でクリアする",
 ]
@@ -55,7 +55,7 @@ static func check(id:eType) -> bool:
 		eType.MIN_COMPLETED:
 			return Common.count_item() == 3
 		eType.FAKE_COMPLETED:
-			return Common.count_item() == 18
+			return Common.count_item() >= 18
 		eType.ALL_COMPLETED:
 			return Common.count_item() == 19
 		eType.SPEEDRUN_40SEC:

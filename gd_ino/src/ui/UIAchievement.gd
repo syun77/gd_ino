@@ -20,6 +20,7 @@ enum eState {
 # -----------------------------------
 # onready.
 # -----------------------------------
+@onready var _bg = $Bg
 @onready var _label = $Label
 
 # -----------------------------------
@@ -45,6 +46,14 @@ func start(type:Achievement.eType) -> void:
 func _ready() -> void:
 	var title = Achievement.get_title(_type)
 	_label.text = "Unlock:%s"%title
+	
+	# ColorRectのサイズを可変にするために色々頑張る.
+	var settings:LabelSettings = _label.label_settings
+	var font:Font = settings.font
+	var size = font.get_string_size(_label.text, 0, -1, settings.font_size)
+	size.x += 64 # マージン
+	_bg.size.x = size.x
+	_bg.position.x = 1280 - size.x
 
 ## 更新.
 func _process(delta: float) -> void:
