@@ -17,7 +17,7 @@ func _ready() -> void:
 	_retry.button_pressed = Common.quick_retry
 	_lunker_support.button_pressed = Common.is_lunker_support
 	
-	Common.play_bgm("ino1")
+	Common.play_bgm("ino2")
 
 ## タイトル画面に戻る
 func _on_button_back_pressed() -> void:

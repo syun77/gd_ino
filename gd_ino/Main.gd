@@ -20,6 +20,7 @@ enum eState {
 	MAIN, # メインゲーム.
 	GAMEOVER, # げーむ　おわた。
 	GAMECLEAR, # ゲームクリア演出.
+	END,
 }
 ## メインのサブ状態.
 enum eMainStep {
@@ -137,6 +138,9 @@ func _physics_process(delta: float) -> void:
 			_update_gameover(delta)
 		eState.GAMECLEAR:
 			_update_gameclear(delta)
+		eState.END:
+			get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
+
 	# UIの更新.
 	_update_ui()
 	
@@ -198,10 +202,8 @@ func _update_gameover(delta:float) -> void:
 	_player.update(delta)
 	if _timer < TIMER_GAMEOVER:
 		return # 少し待ちます.
-	if Input.is_action_just_pressed("action"):
-		# リトライ.
-		#get_tree().change_scene_to_file("res://Main.tscn")
-		get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
+	if Input.is_action_just_released("action"):
+		_state = eState.END
 
 ## 更新 > ゲームクリア.
 func _update_gameclear(delta:float) -> void:

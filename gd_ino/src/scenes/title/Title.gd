@@ -1,8 +1,17 @@
 extends Node2D
 
+## 状態.
+enum eState {
+	MAIN,
+	END,
+}
+
 @onready var _menu = $Menu
 @onready var _check_lunker = $CheckLunker
 @onready var _bg = $Bg
+
+## 状態.
+var _state = eState.MAIN
 
 ## メニュー揺れタイマー.
 var _timer_shake = 0.0
@@ -18,6 +27,15 @@ func _ready() -> void:
 
 ## 更新.
 func _process(delta: float) -> void:
+	match _state:
+		eState.MAIN:
+			_update_main(delta)
+		eState.END:
+			# ボタンと同時押し問題がありそうだけどたぶん大丈夫.
+			get_tree().change_scene_to_file("res://src/scenes/opening/Opening.tscn")
+
+## 更新 > メイン.
+func _update_main(delta:float) -> void:
 	_bg.visible = Common.is_lunker
 	if Common.is_lunker:
 		_menu.frame = 0
@@ -27,7 +45,7 @@ func _process(delta: float) -> void:
 	# release()判定で次の画面で早送りしないようにする.
 	if Input.is_action_just_released("action"):
 		# ゲーム開始.
-		get_tree().change_scene_to_file("res://src/scenes/opening/Opening.tscn")
+		_state = eState.END
 		return
 	
 	_menu.offset = Vector2.ZERO

@@ -71,13 +71,9 @@ func _ready() -> void:
 	
 ## 更新.
 func _physics_process(_delta: float) -> void:
-	match _state:
-		eState.INIT:
-			_state = eState.MAIN
-		eState.MAIN:
-			if Input.is_action_just_released("action"):
-				_state = eState.END
-		eState.END:
-			if Input.is_action_pressed("action") == false:
-				Common.stop_bgm()
-				get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
+	pass
+
+
+func _on_button_pressed() -> void:
+	Common.stop_bgm()
+	get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")

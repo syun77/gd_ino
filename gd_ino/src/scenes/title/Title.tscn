@@ -46,9 +46,10 @@ text = "Option"
 visible = false
 offset_left = 32.0
 offset_top = 24.0
-offset_right = 464.0
+offset_right = 336.0
 offset_bottom = 85.0
 theme = ExtResource("4_d4htc")
+theme_override_font_sizes/font_size = 32
 text = "ランカーモード　"
 
 [connection signal="pressed" from="ButtonAchievement" to="." method="_on_button_achievement_pressed"]

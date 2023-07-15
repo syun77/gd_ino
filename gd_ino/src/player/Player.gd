@@ -165,11 +165,13 @@ func _update_main(delta:float) -> void:
 		_jump_scale_timer = JUMP_SCALE_TIME
 		_jump_cnt = 0 # ジャンプ回数をリセット.
 		
-		if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE1:
-			_is_damage = true
-		if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE2:
-			_is_damage = true
-			_damage_power = 99 # 即死.
+		if Common.is_lunker:
+			# ランカーモードは落下ダメージがある.
+			if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE1:
+				_is_damage = true
+			if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE2:
+				_is_damage = true
+				_damage_power = 99 # 即死.
 	elif _is_landing and is_on_floor() == false:
 		# ジャンプした瞬間.
 		_jump_start_y = position.y
