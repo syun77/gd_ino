@@ -9,8 +9,7 @@ func _ready() -> void:
 	if Common.skip_op_ed:
 		# エンディングスキップ.
 		get_tree().change_scene_to_file("res://src/scenes/result/Result.tscn")
-	else:
-		Common.play_bgm("ino2")
+	Common.play_bgm("ino2")
 
 ## 更新.
 func _process(delta: float) -> void:

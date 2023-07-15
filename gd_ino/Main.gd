@@ -98,7 +98,10 @@ func _ready() -> void:
 	_ui_caption.start(UICaption.eType.START)
 	
 	# BGM再生開始.
-	Common.play_bgm("ino1")
+	if Common.is_lunker:
+		Common.play_bgm("robiopsys")
+	else:
+		Common.play_bgm("ino1")
 	
 ## アイテムオブジェクトを生成。ブロックタイルを置き換える.
 func _create_items_and_replace_block() -> void:
@@ -184,7 +187,8 @@ func _update_main(delta:float) -> void:
 				_ui_layer.add_child(_item_ui)
 				if Common.is_display_item_window:
 					# アイテム獲得メッセージを表示.
-					Common.stop_bgm()
+					if Common.is_lunker == false:
+						Common.stop_bgm()
 				else:
 					# 表示せずに消す.
 					_item_ui.queue_free()
@@ -199,10 +203,12 @@ func _update_main(delta:float) -> void:
 					# ゲームクリア処理へ.
 					_timer = 0.0
 					_state = eState.GAMECLEAR
+					Common.stop_bgm()
 				else:
 					# BGM再開.
 					if Common.is_display_item_window:
-						Common.play_bgm("ino1")
+						if Common.is_lunker == false:
+							Common.play_bgm("ino1")
 					_main_step = eMainStep.MAIN
 		
 ## 更新 > ゲームオーバー.
