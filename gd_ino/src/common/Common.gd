@@ -52,6 +52,7 @@ var _achievements:Array[bool] = []
 var _gained_item = {} # 獲得アイテム.
 var _past_time = 0.0 # 経過時間.
 var is_lunker = false # ランカーモードかどうか.
+var is_lunker_support = false # ランカーモの補助線を有効にするかどうか.
 
 ## 共有オブジェクト.
 var _layers = []
@@ -90,6 +91,7 @@ func to_save() -> void:
 		"quick_retry": quick_retry,
 		"achievements": _achievements,
 		"is_lunker": is_lunker,
+		"is_lunker_support": is_lunker_support,
 	}
 	var s = var_to_str(data)
 	f.store_string(s)
@@ -109,6 +111,7 @@ func from_load() -> void:
 		quick_retry = data["quick_retry"]
 		_achievements = data["achievements"]
 		is_lunker = data["is_lunker"]
+		is_lunker_support = data["is_lunker_support"]
 
 ## 初期化.
 func init() -> void:

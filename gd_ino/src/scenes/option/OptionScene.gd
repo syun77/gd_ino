@@ -4,6 +4,7 @@ extends Node2D
 @onready var _se = $SE/HSlider
 @onready var _skip_op_ed = $CheckOpeningEnding
 @onready var _retry = $CheckRetry
+@onready var _lunker_support = $CheckLunkerSupport
 
 ## 開始.
 func _ready() -> void:
@@ -14,6 +15,7 @@ func _ready() -> void:
 	_se.value = Common.se_volume
 	_skip_op_ed.button_pressed = Common.skip_op_ed
 	_retry.button_pressed = Common.quick_retry
+	_lunker_support.button_pressed = Common.is_lunker_support
 	
 	Common.play_bgm("ino1")
 
@@ -43,3 +45,7 @@ func _on_check_opening_ending_toggled(b: bool) -> void:
 ## クイックリトライ変更.
 func _on_check_retry_toggled(b: bool) -> void:
 	Common.quick_retry = b
+
+## ランカーモードの補助線を有効にするかどうか.
+func _on_check_lunker_support_toggled(b: bool) -> void:
+	Common.is_lunker_support = b

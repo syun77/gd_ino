@@ -182,6 +182,10 @@ func _update_main(delta:float) -> void:
 		_set_fall_through(false) # 着地したら飛び降り終了.
 	
 	_update_collision_post()
+	
+	if Common.is_lunker:
+		# ランカーモードの補助用描画.
+		queue_redraw()
 
 ## 更新 > 死亡.
 func _update_dead(delta:float) -> void:
@@ -234,6 +238,7 @@ func _update_moving() -> void:
 			_timer_muteki = _config.muteki_time
 			Common.play_se("damage")
 			hp -= _damage_power
+			_damage_power = 1
 			if hp <= 0:
 				# 死亡処理へ.
 				_state = eState.DEAD
@@ -436,6 +441,26 @@ func _update_debug() -> void:
 	_label.text = "stomp:%d"%_stomp_tile
 	_label.text += "\nis_floor:%s"%("true" if is_on_floor() else "false")
 	_label.text += "\n" + str(get_floor_normal())
+
+func _draw() -> void:
+	if Common.is_lunker == false:
+		return # ランカーモードでなければ描画しない.
+	if Common.is_lunker_support == false:
+		return # 補助線が無効.
+	if _is_landing:
+		return # 着地中は描画しない.
+	
+	var center = Vector2(0, _jump_start_y - position.y)
+	var idx = 0
+	var cols = [Color.YELLOW, Color.RED]
+	for dy in [LUNKER_JUMP_DAMAGE1, LUNKER_JUMP_DAMAGE2]:
+		var p1 = center + Vector2(-1024, dy)
+		var rect = Rect2(p1, Vector2(2048, 1024))
+		var c = cols[idx]
+		c.a = 0.2
+		draw_rect(rect, c)
+		idx += 1
+		
 
 # ---------------------------------
 # properties.

@@ -74,8 +74,12 @@ static func check(id:eType) -> bool:
 		eType.ALL_COMPLETED_3MIN:
 			return Common.count_item() == 19 and Common.get_past_time_sec() <= 60 * 3
 		eType.LUNKER_COMPLETED:
+			if Common.is_lunker_support:
+				return false
 			return Common.is_lunker
 		eType.LUNKER_ALL_COMPLETED:
+			if Common.is_lunker_support:
+				return false
 			return Common.is_lunker and Common.count_item() == 19
 
 	assert(0, "未定義の実績:%d"%id)	

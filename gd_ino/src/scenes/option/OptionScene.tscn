@@ -66,6 +66,15 @@ theme_override_font_sizes/font_size = 32
 button_pressed = true
 text = "Rキーでクイックリトライ"
 
+[node name="CheckLunkerSupport" type="CheckButton" parent="."]
+offset_left = 104.0
+offset_top = 400.0
+offset_right = 768.0
+offset_bottom = 456.0
+theme = ExtResource("3_6bq6d")
+theme_override_font_sizes/font_size = 32
+text = "ランカーモード補助線 (ONにすると実績が無効となります)"
+
 [node name="ButtonBack" type="Button" parent="."]
 offset_left = 480.0
 offset_top = 832.0
@@ -78,4 +87,5 @@ text = "Back to Title"
 [connection signal="value_changed" from="SE/HSlider" to="." method="_on_h_slider2_value_changed"]
 [connection signal="toggled" from="CheckOpeningEnding" to="." method="_on_check_opening_ending_toggled"]
 [connection signal="toggled" from="CheckRetry" to="." method="_on_check_retry_toggled"]
+[connection signal="toggled" from="CheckLunkerSupport" to="." method="_on_check_lunker_support_toggled"]
 [connection signal="pressed" from="ButtonBack" to="." method="_on_button_back_pressed"]
