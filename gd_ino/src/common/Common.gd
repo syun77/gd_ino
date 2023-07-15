@@ -74,6 +74,7 @@ var _bgm_tbl = {
 	"ino1": "res://assets/sound/ino1.ogg",
 	"ino2": "res://assets/sound/ino2.ogg",
 	"robiopsys": "res://assets/sound/robiopsys.mp3",
+	"piano": "res://assets/sound/piano.mp3",
 }
 var _snds:Array = []
 ### SEテーブル.

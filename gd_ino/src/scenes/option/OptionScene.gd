@@ -19,7 +19,10 @@ func _ready() -> void:
 	_item_window.button_pressed = Common.is_display_item_window
 	_lunker_support.button_pressed = Common.is_lunker_support
 	
-	Common.play_bgm("ino2")
+	if Common.is_lunker:
+		Common.play_bgm("piano")
+	else:
+		Common.play_bgm("ino2")
 
 ## タイトル画面に戻る
 func _on_button_back_pressed() -> void:
