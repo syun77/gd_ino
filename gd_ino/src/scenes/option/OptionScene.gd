@@ -19,6 +19,9 @@ func _ready() -> void:
 
 ## タイトル画面に戻る
 func _on_button_back_pressed() -> void:
+	# セーブする.
+	Common.to_save()
+	
 	Common.stop_bgm()
 	get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")
 

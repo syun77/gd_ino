@@ -66,6 +66,9 @@ func _ready() -> void:
 	# 実績チェック.
 	UiOverlay.check_all_achievements()
 	
+	# セーブ.
+	Common.to_save()
+	
 ## 更新.
 func _physics_process(_delta: float) -> void:
 	match _state:

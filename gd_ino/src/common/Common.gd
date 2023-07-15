@@ -13,6 +13,9 @@ const WINDOW_HEIGHT = 960
 # 同時再生可能なサウンドの数.
 const MAX_SOUND = 8
 
+# セーブデータのパス.
+const PATH_SAVEDATA = "user://savedata.txt"
+
 ## コリジョンレイヤー.
 enum eCollisionLayer {
 	PLAYER = 1, # プレイヤー.
@@ -75,6 +78,34 @@ var _snd_tbl = {
 # ----------------------------------------
 func get_collision_bit(bit:eCollisionLayer) -> int:
 	return int(pow(2, bit-1))
+
+## セーブ.
+func to_save() -> void:
+	var f = FileAccess.open(PATH_SAVEDATA, FileAccess.WRITE)
+	var data = {
+		"bgm": bgm_volume,
+		"se": se_volume,
+		"skip_op_ed": skip_op_ed,
+		"quick_retry": quick_retry,
+		"achievements": _achievements,
+	}
+	var s = var_to_str(data)
+	f.store_string(s)
+	f.close()
+	
+## ロード.
+func from_load() -> void:
+	if FileAccess.file_exists(PATH_SAVEDATA):
+		# 存在すれば読み込み.
+		var f = FileAccess.open(PATH_SAVEDATA, FileAccess.READ)
+		var s = f.get_as_text()
+		f.close()
+		var data = str_to_var(s)
+		bgm_volume = data["bgm"]
+		se_volume = data["se"]
+		skip_op_ed = data["skip_op_ed"]
+		quick_retry = data["quick_retry"]
+		_achievements = data["achievements"]	
 
 ## 初期化.
 func init() -> void:
