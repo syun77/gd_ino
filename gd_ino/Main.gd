@@ -36,9 +36,10 @@ const UI_ITEM_OBJ = preload("res://src/ui/UIItem.tscn")
 # ---------------------------------
 # onready.
 # ---------------------------------
-@onready var _player = $Player
+@onready var _bg = $BgLayer/Bg
+@onready var _player = $MainLayer/Player
 @onready var _camera = $Camera2D
-@onready var _map = $TileMap
+@onready var _map = $MainLayer/TileMap
 @onready var _ui_health = $UILayer/UIHeath
 @onready var _ui_caption = $UILayer/UICaption
 @onready var _ui_item_list = $UILayer/UIItemList
@@ -71,6 +72,10 @@ var _is_unlock_secret = false
 func _ready() -> void:
 	# 開始用の初期化.
 	Common.init()
+	
+	if Common.is_lunker:
+		# ランカーモード.
+		_bg.visible = true
 	
 	# レイヤーを登録する.
 	var layers = {

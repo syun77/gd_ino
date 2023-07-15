@@ -89,6 +89,7 @@ func to_save() -> void:
 		"skip_op_ed": skip_op_ed,
 		"quick_retry": quick_retry,
 		"achievements": _achievements,
+		"is_lunker": is_lunker,
 	}
 	var s = var_to_str(data)
 	f.store_string(s)
@@ -106,7 +107,8 @@ func from_load() -> void:
 		se_volume = data["se"]
 		skip_op_ed = data["skip_op_ed"]
 		quick_retry = data["quick_retry"]
-		_achievements = data["achievements"]	
+		_achievements = data["achievements"]
+		is_lunker = data["is_lunker"]
 
 ## 初期化.
 func init() -> void:

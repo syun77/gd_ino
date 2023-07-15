@@ -1,13 +1,22 @@
 extends Node2D
 
 @onready var _menu = $Menu
+@onready var _check_lunker = $CheckLunker
+@onready var _bg = $Bg
 
 ## メニュー揺れタイマー.
 var _timer_shake = 0.0
 var _timer_shake_max = 0.0
 
+## 開始.
+func _ready() -> void:
+	_check_lunker.button_pressed = Common.is_lunker
+	_bg.visible = Common.is_lunker
+
 ## 更新.
 func _process(delta: float) -> void:
+	_bg.visible = Common.is_lunker
+		
 	# release()判定で次の画面で早送りしないようにする.
 	if Input.is_action_just_released("action"):
 		# ゲーム開始.
@@ -40,3 +49,10 @@ func _on_button_achievement_pressed() -> void:
 ## オプション画面.
 func _on_button_option_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/scenes/option/OptionScene.tscn")
+
+## ランカーモード切り替え.
+func _on_check_lunker_toggled(b: bool) -> void:
+	Common.is_lunker = b
+	Common.to_save()
+	# フォーカスを外す.
+	_check_lunker.release_focus()

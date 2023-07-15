@@ -6,7 +6,9 @@ class_name Player
 # ---------------------------------
 # const.
 # ---------------------------------
+const OFS_SPR_LUNKER = 12
 var ANIM_NORMAL_TBL = [0, 1]
+var ANIM_DEAD_TBL = [2, 3, 4, 5]
 
 const JUMP_SCALE_TIME := 0.2
 const JUMP_SCALE_VAL_JUMP := 0.2
@@ -118,6 +120,12 @@ func _ready() -> void:
 	hp = _config.hp_init
 	max_hp = hp
 	_spr.flip_h = _is_right
+	
+	var frame = 0
+	if Common.is_lunker:
+		# ランカーモード.
+		frame += OFS_SPR_LUNKER
+	_spr.frame = frame
 
 ## 更新 > 開始.
 func _update_ready() -> void:
@@ -171,9 +179,7 @@ func _update_dead(delta:float) -> void:
 	_update_jump_scale_anim(delta)
 	
 	# アニメーションを更新.
-	var idx = (_cnt/7)%4
-	var tbl = [2, 3, 4, 5]
-	_spr.frame = tbl[idx]
+	_spr.frame = _get_anim(true)
 	
 ## HP回復処理.
 func _update_recovery(delta:float) -> void:
@@ -314,12 +320,25 @@ func _update_anim() -> void:
 	# 向きを更新.
 	_is_right = (_direction >= 0.0)
 	_spr.flip_h = _is_right
-	_spr.frame = _get_anim()
+	_spr.frame = _get_anim(false)
 
 ## アニメーションフレーム番号を取得する.
-func _get_anim() -> int:
-	var t = int(_timer_anim * 8)
-	return ANIM_NORMAL_TBL[t%2]
+func _get_anim(is_dead:bool) -> int:
+	var ret = 0
+	if is_dead():
+		# 死亡.
+		var idx = (_cnt/7)%4
+		ret = ANIM_DEAD_TBL[idx]
+	else:
+		# 通常.
+		var t = int(_timer_anim * 8)
+		ret = ANIM_NORMAL_TBL[t%2]
+	
+	if Common.is_lunker:
+		# ランカーモードはオフセットする.
+		ret += OFS_SPR_LUNKER
+	
+	return ret
 
 ## コリジョンレイヤーの更新.
 func _update_collision_layer() -> void:

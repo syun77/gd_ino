@@ -8,6 +8,12 @@
 [node name="Title" type="Node2D"]
 script = ExtResource("1_40xuv")
 
+[node name="Bg" type="ColorRect" parent="."]
+visible = false
+offset_right = 1280.0
+offset_bottom = 960.0
+color = Color(0, 0, 0, 1)
+
 [node name="Title" type="Sprite2D" parent="."]
 position = Vector2(640, 224)
 scale = Vector2(4, 4)
@@ -36,5 +42,12 @@ offset_bottom = 805.0
 theme = ExtResource("4_d4htc")
 text = "Option"
 
+[node name="CheckLunker" type="CheckButton" parent="."]
+offset_right = 432.0
+offset_bottom = 61.0
+theme = ExtResource("4_d4htc")
+text = "ランカーモード　"
+
 [connection signal="pressed" from="ButtonAchievement" to="." method="_on_button_achievement_pressed"]
 [connection signal="pressed" from="ButtonOption" to="." method="_on_button_option_pressed"]
+[connection signal="toggled" from="CheckLunker" to="." method="_on_check_lunker_toggled"]
