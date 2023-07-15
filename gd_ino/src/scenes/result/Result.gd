@@ -63,6 +63,9 @@ func _ready() -> void:
 	# 獲得アイテム数を表示.
 	_txt_item.text = "%d/%d"%[_gained_item, Map.ITEM_NUM]
 	
+	# 実績チェック.
+	UiOverlay.check_all_achievements()
+	
 ## 更新.
 func _physics_process(_delta: float) -> void:
 	match _state:
@@ -73,4 +76,5 @@ func _physics_process(_delta: float) -> void:
 				_state = eState.END
 		eState.END:
 			if Input.is_action_pressed("action") == false:
+				Common.stop_bgm()
 				get_tree().change_scene_to_file("res://src/scenes/title/Title.tscn")

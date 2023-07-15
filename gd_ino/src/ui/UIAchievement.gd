@@ -1,5 +1,11 @@
 extends Node2D
+# ===================================
+# 実績UI
+# ===================================
 
+# -----------------------------------
+# const.
+# -----------------------------------
 const START_OFS_X = 600
 const START_OFS_Y = -128
 const TIME_IN_OUT = 0.5
@@ -11,19 +17,34 @@ enum eState {
 	HIDE,
 }
 
+# -----------------------------------
+# onready.
+# -----------------------------------
 @onready var _label = $Label
 
+# -----------------------------------
+# var.
+# -----------------------------------
 var _timer = 0.0
 var _state = eState.APPEAR
 var _type:Achievement.eType
 
+# -----------------------------------
+# public functions.
+# -----------------------------------
 ## 開始.
 func start(type:Achievement.eType) -> void:
 	_type = type
-	var title = Achievement.get_title(_type)
-	_label.text = "Unlock:%s"%title
 	_state = eState.APPEAR
 	position.x = START_OFS_X
+
+# -----------------------------------
+# private functions.
+# -----------------------------------
+## 開始.
+func _ready() -> void:
+	var title = Achievement.get_title(_type)
+	_label.text = "Unlock:%s"%title
 
 ## 更新.
 func _process(delta: float) -> void:

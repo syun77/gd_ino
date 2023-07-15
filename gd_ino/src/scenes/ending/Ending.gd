@@ -21,6 +21,5 @@ func _process(delta: float) -> void:
 	_spr.position.y -= spd
 	
 	if _spr.position.y < end_y:
-		# オープニング終了.
-		Common.stop_bgm()
+		# エンディング終了.
 		get_tree().change_scene_to_file("res://src/scenes/result/Result.tscn")

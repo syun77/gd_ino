@@ -96,6 +96,7 @@ func setup(layers, player:Player, camera:Camera2D) -> void:
 	for i in range(MAX_SOUND):
 		var snd = AudioStreamPlayer.new()
 		#snd.volume_db = -4
+		snd.bus = "SE"
 		add_child(snd)
 		_snds.append(snd)
 

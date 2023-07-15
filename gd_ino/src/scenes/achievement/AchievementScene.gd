@@ -7,7 +7,7 @@ extends Node2D
 func _ready() -> void:
 	# 実績確認用に初期化する.
 	Common.init()
-	Achievement.unlock(Achievement.eType.ALL_COMPLETED)
+	#Achievement.unlock(Achievement.eType.ALL_COMPLETED)
 	
 	for id in Achievement.eType.values():
 		var label = _list.get_child(id)

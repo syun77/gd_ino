@@ -40,7 +40,7 @@ const DETAIL = [
 # public functions.
 # ----------------------------------------------
 ## すべての実績開放チェック.
-static func check_all() -> void:
+static func check_all_test() -> void:
 	for id in range(Achievement.eType.size()):
 		if check(id):
 			# 実績開放.
@@ -69,7 +69,7 @@ static func check(id:eType) -> bool:
 ## 通常クリアチェック.
 static func check_normal_completed() -> bool:
 	for id in Map.ITEM_LEGENDS:
-		if Common.gained_item(id) == false:
+		if Common.has_item(id) == false:
 			return false
 	return true
 	
