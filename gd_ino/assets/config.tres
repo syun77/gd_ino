@@ -13,4 +13,4 @@ gravity = 48.0
 fall_speed_max = 400.0
 life_ratio = 6.66667
 muteki_time = 0.833333
-scroll_panel_speed = 400.0
+scroll_panel_speed = 480.0

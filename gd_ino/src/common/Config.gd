@@ -30,4 +30,4 @@ const FPS = 60
 # ---------------------------------
 @export_category("地形")
 ## ベルト床の速度.
-@export var scroll_panel_speed = 400.0#2.0
+@export var scroll_panel_speed = 480.0#2.0
