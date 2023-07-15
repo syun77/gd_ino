@@ -10,7 +10,10 @@ var _timer_shake_max = 0.0
 
 ## 開始.
 func _ready() -> void:
-	_check_lunker.button_pressed = Common.is_lunker
+	if Common.is_unlock_lunker_mode():
+		# ランカーモードを選べる.
+		_check_lunker.visible = true
+		_check_lunker.button_pressed = Common.is_lunker
 	_bg.visible = Common.is_lunker
 
 ## 更新.
@@ -54,5 +57,5 @@ func _on_button_option_pressed() -> void:
 func _on_check_lunker_toggled(b: bool) -> void:
 	Common.is_lunker = b
 	Common.to_save()
-	# フォーカスを外す.
+	# SPACEキで切り替わってしまうの、フォーカスを外す.
 	_check_lunker.release_focus()

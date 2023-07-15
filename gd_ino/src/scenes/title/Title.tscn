@@ -43,8 +43,11 @@ theme = ExtResource("4_d4htc")
 text = "Option"
 
 [node name="CheckLunker" type="CheckButton" parent="."]
-offset_right = 432.0
-offset_bottom = 61.0
+visible = false
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 464.0
+offset_bottom = 85.0
 theme = ExtResource("4_d4htc")
 text = "ランカーモード　"
 

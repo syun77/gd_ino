@@ -14,6 +14,9 @@ const JUMP_SCALE_TIME := 0.2
 const JUMP_SCALE_VAL_JUMP := 0.2
 const JUMP_SCALE_VAL_LANDING := 0.25
 
+const LUNKER_JUMP_DAMAGE1 = 64.0 * 3.25 # 3.25タイルで1ダメージ.
+const LUNKER_JUMP_DAMAGE2 = 64.0 * 6.0 # 6タイルで即死.
+
 ## 状態.
 enum eState {
 	READY,
@@ -61,6 +64,8 @@ var _direction = 0
 var _stomp_tile = Map.eType.NONE
 ## ダメージ処理フラグ.
 var _is_damage = false
+## ダメージ値.
+var _damage_power = 1
 ## 回復時間.
 var _timer_recovery = 0.0
 ## ジャンプスケール.
@@ -72,6 +77,8 @@ var _jump_cnt = 0
 var _jump_cnt_max = 1
 ## 獲得したアイテム.
 var _itemID:Map.eItem = Map.eItem.NONE
+## ジャンプ開始座標.
+var _jump_start_y = 0.0
 
 # ---------------------------------
 # public functions.
@@ -118,6 +125,10 @@ func update(delta: float) -> void:
 # ---------------------------------
 func _ready() -> void:
 	hp = _config.hp_init
+	if Common.is_lunker:
+		hp = 1 # ランカーモードの初期HPは1.
+		_jump_cnt_max = 2 # 追加ジャンプが可能.
+		_jump_start_y = position.y
 	max_hp = hp
 	_spr.flip_h = _is_right
 	
@@ -153,6 +164,15 @@ func _update_main(delta:float) -> void:
 		_jump_scale = eJumpScale.LANDING
 		_jump_scale_timer = JUMP_SCALE_TIME
 		_jump_cnt = 0 # ジャンプ回数をリセット.
+		
+		if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE1:
+			_is_damage = true
+		if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE2:
+			_is_damage = true
+			_damage_power = 99 # 即死.
+	elif _is_landing and is_on_floor() == false:
+		# ジャンプした瞬間.
+		_jump_start_y = position.y
 
 	_is_landing = is_on_floor()
 	
@@ -213,7 +233,7 @@ func _update_moving() -> void:
 			velocity.y = -_config.jump_velocity
 			_timer_muteki = _config.muteki_time
 			Common.play_se("damage")
-			hp -= 1
+			hp -= _damage_power
 			if hp <= 0:
 				# 死亡処理へ.
 				_state = eState.DEAD

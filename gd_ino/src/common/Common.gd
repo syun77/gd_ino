@@ -234,6 +234,10 @@ func unlock_achievement(id:int) -> void:
 func unlocked_achievement(id:int) -> bool:
 	return _achievements[id]
 
+## 全コンプしたらランカーモードを選べる.
+func is_unlock_lunker_mode() -> bool:
+	return unlocked_achievement(Achievement.eType.ALL_COMPLETED)
+
 # ----------------------------------------
 # private functions.
 # ----------------------------------------

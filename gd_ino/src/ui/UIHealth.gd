@@ -51,6 +51,9 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	_cnt += 1
 	var is_blink = (_hp <= 1) # HP1以下で点滅する.
+	if _max_hp == _hp:
+		# 最大HPを同じであれば点滅しない.
+		is_blink = false
 	
 	for i in range(MAX_HP):
 		var spr = _spr_list[i]
