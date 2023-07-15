@@ -14,7 +14,7 @@ const JUMP_SCALE_TIME := 0.2
 const JUMP_SCALE_VAL_JUMP := 0.2
 const JUMP_SCALE_VAL_LANDING := 0.25
 
-const LUNKER_JUMP_DAMAGE1 = 64.0 * 3.25 # 3.25タイルで1ダメージ.
+const LUNKER_JUMP_DAMAGE1 = 64.0 * 2.5 # 2.5タイルで1ダメージ.
 const LUNKER_JUMP_DAMAGE2 = 64.0 * 6.0 # 6タイルで即死.
 
 ## 状態.
@@ -172,8 +172,8 @@ func _update_main(delta:float) -> void:
 			if position.y - _jump_start_y > LUNKER_JUMP_DAMAGE2:
 				_is_damage = true
 				_damage_power = 99 # 即死.
-	elif _is_landing and is_on_floor() == false:
-		# ジャンプした瞬間.
+		
+		# 高さを記憶.
 		_jump_start_y = position.y
 
 	_is_landing = is_on_floor()
@@ -270,6 +270,9 @@ func _update_moving() -> void:
 		_jump_cnt += 1 # ジャンプ回数を増やす.
 		_jump_scale = eJumpScale.JUMPING
 		_jump_scale_timer = JUMP_SCALE_TIME
+		# ジャンプした高さを記憶.
+		_jump_start_y = position.y
+
 	
 	# 左右移動の更新.
 	_update_horizontal_moving()
