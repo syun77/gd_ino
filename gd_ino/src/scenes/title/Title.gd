@@ -19,6 +19,10 @@ func _ready() -> void:
 ## 更新.
 func _process(delta: float) -> void:
 	_bg.visible = Common.is_lunker
+	if Common.is_lunker:
+		_menu.frame = 0
+	else:
+		_menu.frame = 1
 		
 	# release()判定で次の画面で早送りしないようにする.
 	if Input.is_action_just_released("action"):
