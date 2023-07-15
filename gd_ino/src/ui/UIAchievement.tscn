@@ -18,11 +18,10 @@ color = Color(0.541176, 0.466667, 0.827451, 0.501961)
 metadata/_edit_lock_ = true
 
 [node name="Label" type="Label" parent="."]
-offset_left = 648.0
+offset_left = 32.0
 offset_top = 16.0
 offset_right = 1248.0
 offset_bottom = 73.0
 text = "Unlock: 3種の神器を集めた"
 label_settings = ExtResource("2_f3m8w")
 horizontal_alignment = 2
-metadata/_edit_lock_ = true

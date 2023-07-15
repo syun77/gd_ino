@@ -166,7 +166,7 @@ func get_past_time() -> float:
 ## 経過時間を秒で取得する.
 func get_past_time_sec() -> int:
 	var t = _past_time
-	var sec = int(t) % 60
+	var sec = int(t)
 	return sec
 
 ## 経過時間を文字列として取得する.

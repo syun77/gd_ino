@@ -28,7 +28,7 @@ enum eState {
 # -----------------------------------
 var _timer = 0.0
 var _state = eState.APPEAR
-var _type:Achievement.eType
+var _type = Achievement.eType.ALL_COMPLETED_3MIN
 
 # -----------------------------------
 # public functions.
