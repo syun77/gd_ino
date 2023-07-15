@@ -28,6 +28,7 @@ texture_region_size = Vector2i(64, 64)
 3:0/0/physics_layer_0/angular_velocity = 0.0
 3:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
 3:0/0/physics_layer_1/angular_velocity = 0.0
+3:0/0/custom_data_2 = 2
 4:0/animation_columns = 1
 4:0/animation_speed = 4.0
 4:0/0 = 0
@@ -257,6 +258,12 @@ texture_region_size = Vector2i(64, 64)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 28, -32, 28, 28, -32, 28)
 0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_1/angular_velocity = 0.0
+0:0/0/custom_data_2 = 1
+4:6/0 = 0
+4:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:6/0/physics_layer_0/angular_velocity = 0.0
+4:6/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+4:6/0/physics_layer_1/angular_velocity = 0.0
 
 [resource]
 tile_size = Vector2i(64, 64)
@@ -266,4 +273,6 @@ custom_data_layer_0/name = "item"
 custom_data_layer_0/type = 2
 custom_data_layer_1/name = "type"
 custom_data_layer_1/type = 2
+custom_data_layer_2/name = "block"
+custom_data_layer_2/type = 2
 sources/4 = SubResource("TileSetAtlasSource_4q015")

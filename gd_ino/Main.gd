@@ -83,8 +83,8 @@ func _ready() -> void:
 	# カメラをワープ.
 	_update_camera(true)
 	
-	# アイテムを生成.
-	_create_items()
+	# アイテムを生成。ブロックタイルを置き換える.
+	_create_items_and_replace_block()
 	
 	# 開始キャプションを表示.
 	_ui_caption.start(UICaption.eType.START)
@@ -92,14 +92,21 @@ func _ready() -> void:
 	# BGM再生開始.
 	Common.play_bgm("ino1")
 	
-## アイテムオブジェクトを生成.
-func _create_items() -> void:
+## アイテムオブジェクトを生成。ブロックタイルを置き換える.
+func _create_items_and_replace_block() -> void:
 	# タイルだとアイテムの判定がややこしいのでオブジェクト化する.
 	for j in range(Map.height):
 		for i in range(Map.width):
 			var pos = Vector2i(i, j)
 			var id = Map.get_item(pos)
 			if id == Map.eItem.NONE:
+				var block = Map.get_block(pos)
+				# ブロックタイルを置き換える.
+				match block:
+					Map.eBlock.INVISIBLE: # 不可視.
+						Map.set_cell(pos, Map.eTileLayer.GROUND, Vector2i(2, 0))
+					Map.eBlock.THROUGH: # 通過可能.
+						Map.set_cell(pos, Map.eTileLayer.GROUND, Vector2i(4, 6))
 				continue # 生成不要.
 			
 			# アイテム生成.

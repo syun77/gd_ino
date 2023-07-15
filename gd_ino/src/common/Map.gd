@@ -9,6 +9,8 @@ extends Node
 const OFS_X = 0
 const OFS_Y = 0
 
+const TILE_SOURCE_ID = 4
+
 ## タイルマップのレイヤー.
 enum eTileLayer {
 	GROUND, # 地面.
@@ -89,6 +91,13 @@ enum eItemType {
 	OTHER, # その他.
 	
 	POWER_UP, # パワーアップ系.
+}
+
+## 置き換え用ブロックの種類.
+enum eBlock {
+	NONE = 0,
+	INVISIBLE = 1, # 見えない.
+	THROUGH = 2, # 通過可能.
 }
 
 func get_item_type(id:eItem) -> eItemType:
@@ -200,6 +209,10 @@ func get_mouse_pos(snapped:bool=false) -> Vector2:
 ## 指定の位置にあるタイル消す.
 func erase_cell(pos:Vector2i, tile_layer:eTileLayer) -> void:
 	_tilemap.erase_cell(tile_layer, pos)
+	
+## 指定の位置にあるタイルを置き換える.
+func set_cell(pos:Vector2i, tile_layer:eTileLayer, atlas_coords) -> void:
+	_tilemap.set_cell(tile_layer, pos, TILE_SOURCE_ID, atlas_coords)
 
 ## 床の種別を取得する.
 func get_floor_type(world:Vector2) -> eType:
@@ -213,6 +226,13 @@ func get_item(pos:Vector2i) -> eItem:
 	var ret = get_custom_data(pos, "item")
 	if ret == null:
 		return eItem.NONE
+	return ret
+	
+## ブロックの種類を取得する.
+func get_block(pos:Vector2i) -> eBlock:
+	var ret = get_custom_data(pos, "block")
+	if ret == null:
+		return eBlock.NONE
 	return ret
 	
 ## カスタムデータを取得する (ワールド座標指定).

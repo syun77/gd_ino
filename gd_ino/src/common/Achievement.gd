@@ -15,6 +15,8 @@ enum eType {
 	ALL_COMPLETED,
 	SPEEDRUN_40SEC,
 	SPEEDRUN_60SEC,
+	ALL_COMPLETED_3MIN,
+	LUNKER_COMPLETED,
 }
 ## 概要.
 const TITLE = [
@@ -24,16 +26,20 @@ const TITLE = [
 	"コンプリートクリア",
 	"40秒クリア",
 	"60秒クリア",
+	"コンプリート＋3分クリア",
+	"ランカーモードクリア",
 ]
 
 ## 詳細.
 const DETAIL = [
 	"3種の神器を集める",
-	"収集アイテムを 3個 集めてクリアする",
-	"収集アイテムを 18個 集めてクリアする",
+	"収集アイテムを 3個 だけ集めてクリアする",
+	"収集アイテムを 18個 以上集めてクリアする",
 	"すべての収集アイテムを集めてクリアする\n(達成すると隠しモードが開放されます)",
 	"40秒以内でクリアする",
 	"60秒以内でクリアする",
+	"すべての収集アイテムを集めて\n3分以内にクリアする",
+	"ランカーモードをクリアする",
 ]
 
 # ----------------------------------------------
@@ -62,6 +68,10 @@ static func check(id:eType) -> bool:
 			return Common.get_past_time_sec() <= 40
 		eType.SPEEDRUN_60SEC:
 			return Common.get_past_time_sec() <= 60
+		eType.ALL_COMPLETED_3MIN:
+			return Common.count_item() == 19 and Common.get_past_time_sec() <= 60 * 3
+		eType.LUNKER_COMPLETED:
+			return Common.is_lunker
 
 	assert(0, "未定義の実績:%d"%id)	
 	return false

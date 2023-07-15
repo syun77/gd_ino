@@ -10,9 +10,9 @@ script = ExtResource("1_wov43")
 
 [node name="ItemList" type="VBoxContainer" parent="."]
 offset_left = 384.0
-offset_top = 128.0
+offset_top = 64.0
 offset_right = 692.0
-offset_bottom = 532.0
+offset_bottom = 604.0
 
 [node name="Item" type="HBoxContainer" parent="ItemList"]
 layout_mode = 2
@@ -82,6 +82,30 @@ layout_mode = 2
 texture = ExtResource("2_in8up")
 
 [node name="Label" type="Label" parent="ItemList/Item6"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Item7" type="HBoxContainer" parent="ItemList"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ItemList/Item7"]
+layout_mode = 2
+texture = ExtResource("2_in8up")
+
+[node name="Label" type="Label" parent="ItemList/Item7"]
+layout_mode = 2
+text = "通常クリア"
+label_settings = ExtResource("2_lo3o3")
+
+[node name="Item8" type="HBoxContainer" parent="ItemList"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ItemList/Item8"]
+layout_mode = 2
+texture = ExtResource("2_in8up")
+
+[node name="Label" type="Label" parent="ItemList/Item8"]
 layout_mode = 2
 text = "通常クリア"
 label_settings = ExtResource("2_lo3o3")

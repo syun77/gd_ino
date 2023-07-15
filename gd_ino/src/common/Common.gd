@@ -51,6 +51,7 @@ var _achievements:Array[bool] = []
 ## ゲームデータ.
 var _gained_item = {} # 獲得アイテム.
 var _past_time = 0.0 # 経過時間.
+var is_lunker = false # ランカーモードかどうか.
 
 ## 共有オブジェクト.
 var _layers = []
@@ -179,9 +180,9 @@ func get_past_time_str() -> String:
 	
 ## 収集アイテム獲得.
 func gain_item(id:Map.eItem) -> void:
+	if Map.get_item_type(id) == Map.eItemType.POWER_UP:
+		return # パワーアップ系は含めない.
 	_gained_item[id] = true
-	
-## 収集アイテム
 
 ## BGMの再生.
 func play_bgm(name:String) -> void:
