@@ -89,8 +89,8 @@ offset_right = 760.0
 offset_bottom = 544.0
 theme = ExtResource("3_6bq6d")
 theme_override_font_sizes/font_size = 32
-text = "ランカーモード補助線
- (ONにすると実績が開放できません)"
+text = "ランカーモードでダメージ補助線を表示
+ (ONにすると実績が開放されなくなります)"
 
 [node name="ButtonBack" type="Button" parent="."]
 offset_left = 480.0

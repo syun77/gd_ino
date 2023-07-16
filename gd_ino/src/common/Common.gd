@@ -84,6 +84,8 @@ var _snd_tbl = {
 	"itemget2": "res://assets/sound/itemget2.wav",
 	"itemget": "res://assets/sound/itemget.wav",
 	"jump": "res://assets/sound/jump.wav",
+	"powerup": "res://assets/sound/powerup.wav",
+	"clear": "res://assets/sound/clear.wav",
 }
 
 

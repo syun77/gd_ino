@@ -54,6 +54,8 @@ func _ready() -> void:
 	size.x += 64 # マージン
 	_bg.size.x = size.x
 	_bg.position.x = 1280 - size.x
+	
+	Common.play_se("powerup")
 
 ## 更新.
 func _process(delta: float) -> void:

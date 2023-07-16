@@ -12,7 +12,7 @@ const MAP_HEIGHT = 52 # 高さ.
 
 const TIMER_READY = 50.0 / 60.0
 const TIMER_GAMEOVER = 0.5
-const TIMER_GAMECLEAR = 1.0
+const TIMER_GAMECLEAR = 2.0
 
 ## 状態.
 enum eState {
@@ -204,6 +204,7 @@ func _update_main(delta:float) -> void:
 					_timer = 0.0
 					_state = eState.GAMECLEAR
 					Common.stop_bgm()
+					Common.play_se("clear", 3)
 				else:
 					# BGM再開.
 					if Common.is_display_item_window:
