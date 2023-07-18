@@ -5,6 +5,10 @@
 ## 概要
 いのべーしょん2007 (for Godot)は、[おめが（　゜ヮ゜）ノ@Omegamega](https://twitter.com/Omegamega) さん開発の[いのべーしょん2007](http://o-mega.sakura.ne.jp/product/ino.html)を Godot Engine に移植（一部不完全）したものです。
 
+## 実行ファイル
+
+* x64版: [x64.zip](./exports/x64.zip)
+
 ## ライセンスについて
 
 特に権利上問題となるデータはないはずなので、自由に使ってもらったり改変してもらってOKだと思います。
