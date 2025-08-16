@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c7vul8qwveq1r"]
 
-[ext_resource type="Script" path="res://src/scenes/achievement/AchievementScene.gd" id="1_wov43"]
+[ext_resource type="Script" uid="uid://bf5nr54bw4j67" path="res://src/scenes/achievement/AchievementScene.gd" id="1_wov43"]
 [ext_resource type="Texture2D" uid="uid://dixkj2jygf167" path="res://assets/images/achievement_icon.png" id="2_in8up"]
 [ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="2_lo3o3"]
 [ext_resource type="Theme" uid="uid://cjqdw4nibxjst" path="res://assets/fonts/ui_48.tres" id="3_q47pp"]

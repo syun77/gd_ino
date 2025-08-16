@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5g58aho1qooe"]
 
-[ext_resource type="Script" path="res://src/scenes/boot/Boot.gd" id="1_tossy"]
+[ext_resource type="Script" uid="uid://bbatmpqd1focp" path="res://src/scenes/boot/Boot.gd" id="1_tossy"]
 [ext_resource type="PackedScene" uid="uid://dp65bi5xnljp1" path="res://src/scenes/title/Title.tscn" id="2_iwh4f"]
 
 [node name="Boot" type="Node2D"]

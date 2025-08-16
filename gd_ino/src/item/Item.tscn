@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://r6p4xf74geoy"]
 
 [ext_resource type="Texture2D" uid="uid://dgmqto4knayb8" path="res://assets/tiles/tile.png" id="1_7ik6r"]
-[ext_resource type="Script" path="res://src/item/Item.gd" id="1_8xslm"]
+[ext_resource type="Script" uid="uid://cur1f3vwtx7kb" path="res://src/item/Item.gd" id="1_8xslm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v7vkf"]
 radius = 48.0

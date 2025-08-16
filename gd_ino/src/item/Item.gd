@@ -86,4 +86,3 @@ func _on_body_entered(body: Node2D) -> void:
 		player.gain_item(_id)
 		# 消滅する.
 		queue_free()
-

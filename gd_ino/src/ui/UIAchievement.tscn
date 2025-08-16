@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bte660xyyru7b"]
 
-[ext_resource type="Script" path="res://src/ui/UIAchievement.gd" id="1_xfbhd"]
+[ext_resource type="Script" uid="uid://bksllgaf67pov" path="res://src/ui/UIAchievement.gd" id="1_xfbhd"]
 [ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="2_f3m8w"]
 
 [node name="UIAchievement" type="Node2D"]

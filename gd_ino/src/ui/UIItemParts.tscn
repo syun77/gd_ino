@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2gyvlyf5b2ey"]
 
-[ext_resource type="Script" path="res://src/ui/UIItemParts.gd" id="1_au486"]
+[ext_resource type="Script" uid="uid://lyaudpp72uvb" path="res://src/ui/UIItemParts.gd" id="1_au486"]
 [ext_resource type="Texture2D" uid="uid://twqbcy75ig1f" path="res://assets/images/item_parts.png" id="1_hbshv"]
 
 [node name="UIItemParts" type="Control"]

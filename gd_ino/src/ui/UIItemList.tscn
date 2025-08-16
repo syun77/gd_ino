@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2w3a7gpfkbnn"]
 
-[ext_resource type="Script" path="res://src/ui/UIItemList.gd" id="1_blwno"]
+[ext_resource type="Script" uid="uid://coscdd4g5mbwr" path="res://src/ui/UIItemList.gd" id="1_blwno"]
 [ext_resource type="Texture2D" uid="uid://5d1jqt7ru6yi" path="res://assets/images/item_list.png" id="1_buv3h"]
 
 [node name="UIItemList" type="Control"]

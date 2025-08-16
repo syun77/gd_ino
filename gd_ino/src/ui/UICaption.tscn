@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dfegnd2mn10k1"]
 
-[ext_resource type="Script" path="res://src/ui/UICaption.gd" id="1_kxk72"]
+[ext_resource type="Script" uid="uid://cuq0g4d0i0vyr" path="res://src/ui/UICaption.gd" id="1_kxk72"]
 [ext_resource type="Texture2D" uid="uid://c7uq6kw2b8yay" path="res://assets/images/caption.png" id="1_qj2ro"]
 
 [node name="UICaption" type="Control"]

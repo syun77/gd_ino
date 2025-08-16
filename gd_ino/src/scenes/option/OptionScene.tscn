@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dybjpoyfvgi3a"]
 
-[ext_resource type="Script" path="res://src/scenes/option/OptionScene.gd" id="1_x0kjo"]
+[ext_resource type="Script" uid="uid://dabn28yy8f8by" path="res://src/scenes/option/OptionScene.gd" id="1_x0kjo"]
 [ext_resource type="LabelSettings" uid="uid://ocau00etiel2" path="res://assets/fonts/font_result.tres" id="2_2vdb2"]
 [ext_resource type="Theme" uid="uid://cjqdw4nibxjst" path="res://assets/fonts/ui_48.tres" id="3_6bq6d"]
 
